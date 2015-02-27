@@ -1,8 +1,8 @@
 # Ve Interactive recruitment JavaScript test
 
 The JavaScript test you are about to start is splitted in 2 different parts:
-1. The creation of a ProcessMapping class
-2. The unit testing of your ProcessMapping class
+* The creation of a ProcessMapping class
+* The unit testing of your ProcessMapping class
 
 ## 1. The creation of a ProcessMapping class
 

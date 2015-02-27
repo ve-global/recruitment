@@ -1,10 +1,10 @@
 # Ve Interactive recruitment JavaScript test
 
 The JavaScript test you are about to start is splitted in 2 different parts:
-* The creation of a ProcessMapping class
-* The unit testing of your ProcessMapping class
+1. The creation of a ProcessMapping class
+2. The unit testing of your ProcessMapping class
 
-## The creation of a ProcessMapping class
+## 1. The creation of a ProcessMapping class
 
 You got an HTML page (index.html) that contains a form and some other information about what is the customer buying.
 The goal is to capture all those information and to send them using the SendData class which in this test prints all the captured data to the console.
@@ -19,7 +19,7 @@ Hints:
   * The ProcessMapping class can also be using other classes that you would have created.
 
 
-## The unit testing of your ProcessMapping class:
+## 2. The unit testing of your ProcessMapping class:
 
 Use your favorite unit test framework to unit test the class(es) you have created.
 

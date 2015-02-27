@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ve Interactive</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"></head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <form>
+          <h1>Create your Ve Account</h1>
+
+          <hr>
+
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email"></div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password"></div>
+
+          <hr>
+
+          <div class="form-group">
+            <label for="firstName">First name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="Enter first name"></div>
+
+          <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" class="form-control" id="lastName" placeholder="Enter last name"></div>
+
+          <div class="radio-inline">
+            <label>
+              <input type="radio" name="sex" id="male" value="male">Male</label>
+          </div>
+          <div class="radio-inline">
+            <label>
+              <input type="radio" name="sex" id="female" value="female">Female</label>
+          </div>
+
+          <br>
+          <br>
+
+          <div class="form-group">
+            <label for="phoneNumber">Phone number</label>
+            <input type="number" class="form-control" id="phoneNumber" placeholder="Enter UK phone number"></div>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="termsAndConditions">I Agree To The Terms & Conditions</label>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <h1>My cart</h1>
+
+        <hr>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Product name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="productName">Ve Lamp</td>
+              <td class="productQuantity">2</td>
+              <td class="productPrice">£20</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td>Sum</td>
+              <td id="totalPrice">£40</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

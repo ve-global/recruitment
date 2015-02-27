@@ -1,14 +1,14 @@
 # Ve Interactive recruitment JavaScript test
 
 The JavaScript test you are about to start is splitted in 2 different parts:
-  1. The creation of a ProcessMapping class
-  2. The unit testing of your ProcessMapping class
+  1. The creation of a **ProcessMapping** class
+  2. The unit testing of your **ProcessMapping** class
 
 ## 1. The creation of a ProcessMapping class
 
-You got an HTML page (index.html) that contains a form and some other information about what is the customer buying.
+You got an HTML page (*index.html*) that contains a form and some other information about what is the customer buying.
 The goal is to capture all those information and to send them using the SendData class which in this test prints all the captured data to the console.
-In order for you to be able to capture and identify all those data, you have been given a "mappings" array (mappings.js) that contains an array of data to be captured.
+In order for you to be able to capture and identify all those data, you have been given a "mappings" array (*mappings.js*) that contains an array of data to be captured.
 The data are getting captured using 2 different events:
   * onLoad: capture the data when the page gets loaded.
   * onChange: capture the data when an input has been changed.

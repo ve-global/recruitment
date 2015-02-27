@@ -1,4 +1,4 @@
-var classe = {};
+var classes = {};
 
 function init () {
 	var sendDataInstance,

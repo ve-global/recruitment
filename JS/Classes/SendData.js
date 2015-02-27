@@ -17,7 +17,7 @@
 		console.log('dataCaptured: mapping id: ' + mapping.id + ' - data: ' + data);
 	};
 
-	SendData.prototype.SendData = function (mapping, data) {
+	SendData.prototype.sendData = function (mapping, data) {
 		var valueChanged = null;
 
 		valueChanged = this.storeData(mapping.id, data);

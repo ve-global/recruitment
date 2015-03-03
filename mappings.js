@@ -1,7 +1,6 @@
 var mappings = [
     {
         id: 1,
-        dataDescription: 'email',
         selector: '#email',
         attribute: 'value',
         event: 'onChange',
@@ -10,7 +9,6 @@ var mappings = [
     },
     {
         id: 2,
-        dataDescription: 'firstName',
         selector: '#firstName',
         attribute: 'value',
         event: 'onChange',
@@ -19,7 +17,6 @@ var mappings = [
     },
     {
         id: 3,
-        dataDescription: 'lastName',
         selector: '#lastName',
         attribute: 'value',
         event: 'onChange',
@@ -28,7 +25,6 @@ var mappings = [
     },
     {
         id: 4,
-        dataDescription: 'sex',
         selector: 'input[name="sex"]',
         attribute: 'radio',
         event: 'onChange',
@@ -37,7 +33,6 @@ var mappings = [
     },
     {
         id: 5,
-        dataDescription: 'phoneNumber',
         selector: '#phoneNumber',
         attribute: 'value',
         event: 'onChange',
@@ -46,7 +41,6 @@ var mappings = [
     },
     {
         id: 6,
-        dataDescription: 'termsAndConditions',
         selector: '#termsAndConditions',
         attribute: 'checkbox',
         event: 'onChange',
@@ -55,7 +49,6 @@ var mappings = [
     },
     {
         id: 7,
-        dataDescription: 'productName',
         selector: '.productName',
         attribute: 'text',
         event: 'onLoad',
@@ -64,7 +57,6 @@ var mappings = [
     },
     {
         id: 8,
-        dataDescription: 'productQuantity',
         selector: '.productQuantity',
         attribute: 'text',
         event: 'onLoad',
@@ -73,7 +65,6 @@ var mappings = [
     },
     {
         id: 9,
-        dataDescription: 'productPrice',
         selector: '.productPrice',
         attribute: 'text',
         event: 'onLoad',
@@ -82,7 +73,6 @@ var mappings = [
     },
     {
         id: 10,
-        dataDescription: 'totalPrice',
         selector: '#totalPrice',
         attribute: 'text',
         event: 'onLoad',

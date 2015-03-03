@@ -1,13 +1,14 @@
-var classes = {};
+(function () {
+	'use strict';
 
-function init () {
-	var sendDataInstance,
-		processMapping;
+	/**
+	 * This function is responsible for capturing data (based on mappings.js) and sending data (with use of DataReporter class).
+	 *
+	 * @name init
+	 */
+	function init () {
+	}
 
-	sendDataInstance = new classes.SendData();
-	processMappingInstance = new classes.ProcessMapping(mappings, sendDataInstance.sendData.bind(sendDataInstance));
-	
-	processMappingInstance.init();
-}
+	document.addEventListener('DOMContentLoaded', init, false);
 
-document.addEventListener('DOMContentLoaded', init, false);
+}());

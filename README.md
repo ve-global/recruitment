@@ -13,7 +13,7 @@ The goal is to capture all those information and to send them using the *DataRep
 
 You will find all information related to the *DataReporter* class in .js files comments and unit tests.
 
-In order for you to be able to capture and identify all those data, you have been given a 'mappings' array (*mappings.js*) that contains information on how to capture the data.
+In order for you to be able to capture and identify all those data, you have been given a 'mappings' array (*mappings.js*) that contains information on how to capture them.
 
 e.g. Let's take the mapping 1:
 ```javascript

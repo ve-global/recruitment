@@ -29,8 +29,8 @@ e.g. Let's take the mapping 1:
 * **id:** The id is the identifier of the data you will be capturing. It will help you not to send the same data over and over again if it didn't chage + it will allow the Back-end to identify what data you are sending.
 * **selector:** A css selector helping you getting the DOM element you need data from.
 * **attribute:** The attributes relate to the type of data you will have to get from your DOM element.
-	* ***text:*** relate to the innerText of your element - e.g. your element: *<div>example</div>*, you would get: '*example*'.
-	* ***value:*** relate to the value of your element - e.g. your element: *<input type="text" value="my value" />*, you would get: '*my value*'.
+	* ***text:*** relate to the innerText of your element - e.g. your element: *&lt;div&gt;example&lt;/div&gt;*, you would get: '*example*'.
+	* ***value:*** relate to the value of your element - e.g. your element: *&lt;input type="text" value="my value" /&gt;*, you would get: '*my value*'.
 	* ***radio:*** relate to the value of the selected radio button.
 	* ***checkbox:*** if your checkbox is checked, it must return '*Checked*', '*Unchecked*' otherwise.
 * **event:** Specifies when you will be capturing the data you need  

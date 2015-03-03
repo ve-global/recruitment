@@ -36,8 +36,8 @@ e.g. Let's take the mapping 1:
 * **event:** Specifies when you will be capturing the data you need  
 	* ***onLoad:*** When the page is loaded
 	* ***onChange:*** When the DOM element will have changed
-* **isEmail:** If this value is true, the value should only get stored/send when the captured value is a valid email.
-* **isPhoneNumber:** If this value is true, the value should only get stored/send when the captured value is a valid UK phone number.
+* **isEmail:** If this value is true, the captured value should only get stored/send when it is a valid email.
+* **isPhoneNumber:** If this value is true, the captured value should only get stored/send when it is a valid UK phone number.
 
 
 ## 2. Unit testing

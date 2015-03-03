@@ -42,7 +42,8 @@ e.g. Let's take the mapping 1:
 
 ## 2. Unit testing
 
-Use your favorite unit test framework to unit test the class(es) you have created.
+You are to unit test the JavaScript code you have written.
 
-Hints:
-  * We are using Jasmine
+You can use *Jasmine* framework to do that.
+Example of unit tests for the *DataReporter* can be found in *Test* folder.
+You can use *npm install* command to install required packages that will run tests. After that you have to add created files in *karma.conf.js* and run *karma start* command in your project folder. Once you do that follow the instruction seen on terminal.

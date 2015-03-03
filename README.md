@@ -10,22 +10,20 @@ The JavaScript test you are about to start is split in 2 different parts:
 
 ## 1. The creation of a ProcessMapping class
 
------ an example of a mapping getting processed
-
 You got an HTML page (*index.html*) that contains a form and some other information about what is the customer buying.
 The goal is to capture all those information and to send them using the DataReporter class which in this test prints all the captured data in the console.
 In order for you to be able to capture and identify all those data, you have been given a "mappings" array (*mappings.js*) that contains an array of data to be captured.
 
-e.g. Let's take the mapping 10:
-```
-    {
-        id: 10,
-        selector: '#totalPrice',
-        attribute: 'text',
-        event: 'onLoad',
-        isEmail: false,
-        isPhoneNumber: false
-    }
+e.g. Let's take the mapping 1:
+```json
+{
+    id: 1,
+    selector: '#email',
+    attribute: 'value',
+    event: 'onChange',
+    isEmail: true,
+    isPhoneNumber: false
+}
 ```
 
 	* id: The id is the identifier of the data you will be capturing. It will help you not to send the same data over and over again if it didn't chage + it will allow the Back-end to identify what data you are sending.

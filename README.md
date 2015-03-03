@@ -17,7 +17,7 @@ The goal is to capture all those information and to send them using the DataRepo
 In order for you to be able to capture and identify all those data, you have been given a "mappings" array (*mappings.js*) that contains an array of data to be captured.
 
 e.g. Let's take the mapping 10:
-'''
+```
     {
         id: 10,
         selector: '#totalPrice',
@@ -26,7 +26,7 @@ e.g. Let's take the mapping 10:
         isEmail: false,
         isPhoneNumber: false
     }
-'''
+```
 
 	* id: The id is the identifier of the data you will be capturing. It will help you not to send the same data over and over again if it didn't chage + it will allow the Back-end to identify what data you are sending.
 

@@ -9,9 +9,9 @@ In order to do that, the test you are about to start is split in 2 different par
 ## 1. Programming
 
 You got an HTML page (*index.html*) that contains a form and some information about what is the customer buying.
-The goal is to capture all those information and to send them using the DataReporter class which in this test prints all the captured data in the console.
+The goal is to capture all those information and to send them using the *DataReporter* class which in this test prints all the captured data in the console.
 
-You will find all information repleted to DataReporter class in comments and unit tests.
+You will find all information repleted to *DataReporter* class in comments and unit tests.
 
 In order for you to be able to capture and identify all those data, you have been given a 'mappings' array (*mappings.js*) that contains an array of data to be captured.
 

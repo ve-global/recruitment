@@ -1,6 +1,6 @@
 var classes = classes || {};
 
-(function(classes){
+(function(win, classes){
 	'use strict';
 
 	/**
@@ -40,7 +40,7 @@ var classes = classes || {};
 	 * @param {string} data - data to send to the Back-end.
 	 */
 	DataReporter.prototype.makeRequest = function (id, data) {
-		console.log('dataCaptured: mapping id: ' + id + ' - data: ' + data);
+		win.console.log('dataCaptured: mapping id: ' + id + ' - data: ' + data);
 	};
 
 	/**
@@ -61,4 +61,4 @@ var classes = classes || {};
 
 	classes.DataReporter = DataReporter;
 
-}(classes));
+}(window, classes));

@@ -1,14 +1,15 @@
 # Ve Interactive recruitment JavaScript test
 
-The JavaScript test you are about to start is split in 2 different parts:
-  1. The creation of a **ProcessMapping** class
-  2. The unit testing of your **ProcessMapping** class
+The goal of this test is to capture data present on a page in order to send them to an API.
+
+In order to do that, the test you are about to start is split in 2 different parts:
+	1. Programming
+	2. Unit testing
 
 
 ----- package.json with npm install
------ What is "capture"
 
-## 1. The creation of a ProcessMapping class
+## 1. Programming
 
 You got an HTML page (*index.html*) that contains a form and some other information about what is the customer buying.
 The goal is to capture all those information and to send them using the DataReporter class which in this test prints all the captured data in the console.
@@ -44,7 +45,7 @@ e.g. Let's take the mapping 1:
 	* isPhoneNumber: If this value is true, the value should only get stored/send when the captured value is a valid UK phone number.
 
 
-## 2. The unit testing of your ProcessMapping class:
+## 2. Unit testing
 
 Use your favorite unit test framework to unit test the class(es) you have created.
 

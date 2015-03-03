@@ -15,7 +15,7 @@ The goal is to capture all those information and to send them using the DataRepo
 In order for you to be able to capture and identify all those data, you have been given a "mappings" array (*mappings.js*) that contains an array of data to be captured.
 
 e.g. Let's take the mapping 1:
-```json
+```javascript
 {
     id: 1,
     selector: '#email',

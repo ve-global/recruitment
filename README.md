@@ -3,8 +3,8 @@
 The goal of this test is to capture data present on a page in order to send them to an API.
 
 In order to do that, the test you are about to start is split in 2 different parts:
-	1. Programming
-	2. Unit testing
+  1. Programming
+  2. Unit testing
 
 
 ----- package.json with npm install

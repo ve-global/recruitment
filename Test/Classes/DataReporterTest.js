@@ -1,120 +1,138 @@
 (function(win, classes){
-	describe('DataReporter', function () {
-		var DataReporter = classes.DataReporter,
-			dataReporterInstance;
+  'use strict';
 
-		describe('constructor', function () {
-			beforeEach(function () {
-				dataReporterInstance = new DataReporter();
-			});
+  describe('DataReporter', function () {
+    var DataReporter = classes.DataReporter,
+      dataReporterInstance;
 
-			it('initalizes the data property', function () {
-				expect(dataReporterInstance.data).toEqual({});
-			});
-		});
+    describe('constructor', function () {
+      beforeEach(function () {
+        dataReporterInstance = new DataReporter();
+      });
 
-		describe('store', function () {
-			var result;
+      it('initalizes the stored data object as empty', function () {
+        expect(dataReporterInstance.data).toEqual({});
+      });
+    });
 
-			beforeEach(function () {
-				dataReporterInstance = new DataReporter();
-			});
+    describe('store', function () {
+      var hasBeenStored;
 
-			describe('the id has never been stored', function () {
-				beforeEach(function () {
-					result = dataReporterInstance.store(1, 'data');
-				});
+      beforeEach(function () {
+        dataReporterInstance = new DataReporter();
+      });
 
-				it('returns true as the data has been stored', function () {
-					expect(result).toEqual(true);
-				});
-				it('stores the new data in the data object', function () {
-					expect(dataReporterInstance.data).toEqual({1: 'data'});
-				});
-				it('adds new data into the object it not already present', function () {
-					result = dataReporterInstance.store(2, 'someData');
-					expect(dataReporterInstance.data).toEqual({
-						1: 'data',
-						2: 'someData'
-					});
-				});
-			});
+      describe('the mapping has never been stored', function () {
+        beforeEach(function () {
+          dataReporterInstance.data = {};
+        });
 
-			describe('the id has already been stored so we change the data assigned to it', function () {
-				beforeEach(function () {
-					dataReporterInstance.data = {
-						1: 'data'
-					};
-					result = dataReporterInstance.store(1, 'someData');
-				});
+        it('stores the data in the data object', function () {
+          dataReporterInstance.store(1, 'data');
 
-				it('returns true as the data has been changed', function () {
-					expect(result).toEqual(true);
-				});
-				it('changes the stored data', function () {
-					expect(dataReporterInstance.data).toEqual({
-						1: 'someData'
-					});
-				});
-			});
+          expect(dataReporterInstance.data).toEqual(jasmine.objectContaining({
+            1: 'data'
+          }));
+        });       
+        it('returns that the data has been stored successfully', function () {
+          hasBeenStored = dataReporterInstance.store(1, 'data');
 
-			describe('the id has already been stored and the data we try to store is the same', function () {
-				beforeEach(function () {
-					dataReporterInstance.data = {
-						1: 'data'
-					};
-					result = dataReporterInstance.store(1, 'data');
-				});
+          expect(hasBeenStored).toEqual(true);
+        });
+        it('does not remove the data stored previously', function () {
+          dataReporterInstance.data = {
+            1: 'data'
+          };
 
-				it('returns false as the data was the same and has not changed', function () {
-					expect(result).toEqual(false);
-				});
-				it('the stored data has not changed', function () {
-					expect(dataReporterInstance.data).toEqual({
-						1: 'data'
-					});
-				});
-			});
-		});
+          hasBeenStored = dataReporterInstance.store(2, 'more-data');
 
-		describe('makeRequest', function () {
-			beforeEach(function () {
-				dataReporterInstance = new DataReporter();
-				spyOn(win.console, 'log');
+          expect(dataReporterInstance.data).toEqual(jasmine.objectContaining({
+            1: 'data'
+          }));
+        });
+      });
 
-				dataReporterInstance.makeRequest(1, 'data');
-				dataReporterInstance.makeRequest(2, 'someData');
-			});
+      describe('the id has already been stored so we change the data assigned to it', function () {
+        beforeEach(function () {
+          dataReporterInstance.data = {
+            1: 'data'
+          };
 
-			it('calls the console.log using the given parameters', function () {
-				expect(win.console.log).toHaveBeenCalledWith('dataCaptured: mapping id: 1 - data: data');
-				expect(win.console.log).toHaveBeenCalledWith('dataCaptured: mapping id: 2 - data: someData');
-			});
-		});
+        });
 
-		describe('send', function () {
-			beforeEach(function () {
-				dataReporterInstance = new DataReporter();
-				spyOn(dataReporterInstance, 'store').and.returnValue(true);
-				spyOn(dataReporterInstance, 'makeRequest');
-			});
+        it('changes the stored data', function () {
+          dataReporterInstance.store(1, 'new-data');
 
-			it('calls the store method to get if the value have changed or not', function () {
-				dataReporterInstance.send(1, 'data');
+          expect(dataReporterInstance.data).toEqual({
+            1: 'new-data'
+          });
+        });
+        it('returns that the data has been stored successfully', function () {
+          hasBeenStored = dataReporterInstance.store(1, 'new-data');
+          
+          expect(hasBeenStored).toEqual(true);
+        });
+      });
 
-				expect(dataReporterInstance.store).toHaveBeenCalledWith(1, 'data');
-			});
-			it('calls the makeRequest method if the store one returns true', function () {
-				dataReporterInstance.send(1, 'data');
+      describe('the id has already been stored and the data we try to store is the same', function () {
+        beforeEach(function () {
+          dataReporterInstance.data = {
+            1: 'data'
+          };
+        });
 
-				expect(dataReporterInstance.makeRequest).toHaveBeenCalledWith(1, 'data');
-			});
-			it('does not call the makeRequest method if the store one returns false', function () {
-				dataReporterInstance.store.and.returnValue(false);
-				dataReporterInstance.send(1, 'data');
+        it('does not change the stored data', function () {
+          dataReporterInstance.store(1, 'data');
+          
+          expect(dataReporterInstance.data[1]).toEqual('data');
+        });
+        it('returns that the data was the same and has not been stored', function () {
+          hasBeenStored = dataReporterInstance.store(1, 'data');
 
-				expect(dataReporterInstance.makeRequest).not.toHaveBeenCalledWith(1, 'data');
-			});
-		});
-	});
+          expect(hasBeenStored).toEqual(false);
+        });
+      });
+    });
+
+    describe('makeRequest', function () {
+      beforeEach(function () {
+        dataReporterInstance = new DataReporter();
+        spyOn(win.console, 'log');
+      });
+
+      it('logs that the data has been sent to the server', function () {
+        dataReporterInstance.makeRequest(1, 'data');
+
+        expect(win.console.log).toHaveBeenCalledWith('dataCaptured: mapping id: 1 - data: data');
+      });
+    });
+
+    describe('send', function () {
+      beforeEach(function () {
+        dataReporterInstance = new DataReporter();
+        spyOn(dataReporterInstance, 'store');
+        spyOn(dataReporterInstance, 'makeRequest');
+      });
+
+      it('stores the captured value in memory', function () {
+        dataReporterInstance.send(1, 'data');
+
+        expect(dataReporterInstance.store).toHaveBeenCalledWith(1, 'data');
+      });
+      it('does the request to the server if the value has changed', function () {
+        dataReporterInstance.store.and.returnValue(true);
+
+        dataReporterInstance.send(1, 'data');
+
+        expect(dataReporterInstance.makeRequest).toHaveBeenCalledWith(1, 'data');
+      });
+      it('does not do the request to the server if the value has not changed', function () {
+        dataReporterInstance.store.and.returnValue(false);
+        
+        dataReporterInstance.send(1, 'data');
+
+        expect(dataReporterInstance.makeRequest).not.toHaveBeenCalled();
+      });
+    });
+  });
 }(window, classes));

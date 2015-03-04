@@ -8,12 +8,12 @@ In order to do that, the test you are about to start is split in 2 different par
 
 ## 1. Programming
 
-You got an HTML page (*index.html*) that contains a form and some information about what is the customer buying.
-The goal is to capture all those information and to send them using the *DataReporter* class which in this test prints all the captured data in the console.
+You have an HTML page (*index.html*) that contains a form and some information about what the customer is buying. The goal is to capture all these pieces of information and to send them using the *DataReporter* class. In this test the *DataReporter* class prints all the captured data in the console.
 
-You will find all information related to the *DataReporter* class in .js files comments and unit tests.
 
-In order for you to be able to capture and identify all those data, you have been given a 'mappings' array (*mappings.js*) that contains information on how to capture them.
+You will find all information related to the *DataReporter* class in available code.
+
+In order for you to be able to capture and identify all those pieces of data, you have been given a 'mappings' array (*mappings.js*) that contains information on how to capture them.
 
 e.g. Let's take the mapping 1:
 ```javascript
@@ -46,4 +46,6 @@ You are to unit test the JavaScript code you have written.
 
 You can use *Jasmine* framework to do that.
 Example of unit tests for the *DataReporter* can be found in *Test* folder.
-You can use *npm install* command to install required packages that will run tests. After that you have to add created files in *karma.conf.js* and run *karma start* command in your project folder. Once you do that follow the instruction seen on terminal.
+You need node.js install to perform tests.
+You can use *npm install* command to install required packages that will run tests. The command should be executed in the command prompt in the directory with the *package.json*.
+After that you have to add created files in *karma.conf.js* and run *karma start* command in your project folder. Once you do that follow the instruction seen on terminal.

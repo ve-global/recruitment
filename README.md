@@ -46,6 +46,6 @@ You are to unit test the JavaScript code you have written.
 
 You can use *Jasmine* framework to do that.
 Example of unit tests for the *DataReporter* can be found in *Test* folder.
-You need node.js install to perform tests.
+You need *node.js* installed to perform tests.
 You can use *npm install* command to install required packages that will run tests. The command should be executed in the command prompt in the directory with the *package.json*.
 After that you have to add created files in *karma.conf.js* and run *karma start* command in your project folder. Once you do that follow the instruction seen on terminal.

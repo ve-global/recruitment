@@ -8,7 +8,7 @@ In order to do that, the test you are about to start is split in 2 different par
 
 ## 1. Programming
 
-You have an HTML page (*index.html*) that contains a form and some information about what the customer is buying. The goal is to capture all these pieces of information and to send them using the *DataReporter* class. In this test the *DataReporter* class prints all the captured data in the console.
+You have an HTML page (*index.html*) which contains a form and some information about what the customer is buying. The goal is to capture all of that information and to send it using the *DataReporter* class. In this test the *DataReporter* class prints all the captured data in the console.
 
 
 You will find all information related to the *DataReporter* class in available code.
@@ -32,7 +32,7 @@ e.g. Let's take the mapping 1:
 	* ***text:*** relate to the innerText of your element - e.g. your element: *&lt;div&gt;example&lt;/div&gt;*, you would get: '*example*'.
 	* ***value:*** relate to the value of your element - e.g. your element: *&lt;input type="text" value="my value" /&gt;*, you would get: '*my value*'.
 	* ***radio:*** relate to the value of the selected radio button.
-	* ***checkbox:*** if your checkbox is checked, it must return '*Checked*', '*Unchecked*' otherwise.
+	* ***checkbox:*** if your checkbox is checked, it should return '*Checked*', otherwise it should return '*Unchecked*'.
 * **event:** Specifies when you will be capturing the data you need  
 	* ***onLoad:*** When the page is loaded
 	* ***onChange:*** When the DOM element will have changed

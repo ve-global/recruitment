@@ -45,7 +45,7 @@ var classes = classes || {};
 
 	/**
 	 * This method is called in order to store and send the data to the Back-end.
-	 * The data will be sent only if it has changed, it is why we are using ids to identify and store them. 
+	 * The data will be sent only if it has changed, this is why we are using ids to identify and store them. 
 	 *
 	 * @name send
 	 * @param {number} id - Id of the data to send/store.

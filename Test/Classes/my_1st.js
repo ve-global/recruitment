@@ -2,11 +2,11 @@
   'use strict';
 
 describe("MyFirstTest", function() {
-    it("test if Jasmine works", function(){
-        console.log("Jasmine works.");
+    it("Test if Jasmine works", function(){
+        console.log("Jasmine ran my test.");
         expect(true).toBe(true);
     })
-    console.log("Setting up the test.");
+    console.log("Setting up Sohail's test.");
     // classes.
 });
 

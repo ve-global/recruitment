@@ -7,8 +7,8 @@ module.exports = function(config) {
         files: [
             'JS/Classes/DataReporter.js',
             'Test/**',
-            'Test/Classes/DataReporterTest.js',
-            'spec/sohail/my1Spec.js',
+            //'Test/Classes/DataReporterTest.js',
+            //'spec/sohail/my1Spec.js',
         ],
 
         plugins : [

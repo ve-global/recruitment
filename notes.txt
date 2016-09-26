@@ -1,0 +1,36 @@
+Did this;
+
+sudo npm install -g jasmine
+
+after git clone
+cd ?
+
+jasmine init
+# no: jasmine examples
+more ./support/jasmine.json
+jasmine
+
+
+HTML
+
+cd  ~/cs/ve-interactive/recruitment
+npm install karma --save-dev
+npm install karma-jasmine karma-chrome-launcher --save-dev
+npm install  jasmine-core --save-dev
+
+npm install karma-firefox-launcher --save-dev
+npm install karma-firefox-extra-launcher --save-dev   # any useful?
+./node_modules/karma/bin/karma start   --browsers Firefox,Chrome
+
+
+
+The organisation is like this:
+JS
+    Classes
+        *.js
+Tests
+    Classes
+        *.js
+
+
+That browser window is the Context run the tests that need DOM (non node, browser tests). One is openned for each browser type.

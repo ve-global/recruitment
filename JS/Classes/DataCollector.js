@@ -1,5 +1,7 @@
 var KLEPTO = KLEPTO || {};
 
+(function(win, KLEPTO){
+
 'use strict';
 
 /*
@@ -41,9 +43,15 @@ KLEPTO.DataCollector.prototype.attach = function (document_, reporter) {
     // var elem = document_.getElementById('email');
     // let dom_elements = KLEPTO.DataCollector._parse_selector(this.map_entry.selector, document_);
     let dom_elements = [document_.querySelector(this.map_entry.selector)];
+    // must use document.querySelectorAll. Otherwise will not capture ...
+    // What about multiple seectors sending through the same channel?
+    // How can we check for this?
+    // // todo: unit test that checks the problem with the radio-button.
+
+    console.log(dom_elements);
 
     if (!dom_elements) {
-        console.log("Nothing to do");
+        // console.log("Nothing to do");
         return this;
     }
 
@@ -82,6 +90,7 @@ KLEPTO.DataCollector.prototype.getEventName = function() {
 
     refactor: get dom elements
 */
+/*
 KLEPTO.DataCollector._parse_selector = function(selector_name, document_) {
     if (typeof selector_name === "undefined"  || typeof selector_name === "null") {
         throw new InvalidMappingException("selector_name", "selector", null);
@@ -100,12 +109,12 @@ KLEPTO.DataCollector._parse_selector = function(selector_name, document_) {
 
     } else if (code == '.') {
 
-        let dom_element_array = document.getElementsByClassName(name_tail)
+        let dom_element_array = document_.getElementsByClassName(name_tail)
         return dom_element_array;
 
     } else if (code == '?') {
 
-        let dom_element_array = document.getElementsByTagName("...")
+        let dom_element_array = document_.getElementsByTagName("...")
         return dom_element_array;
 
     } else {
@@ -115,22 +124,45 @@ KLEPTO.DataCollector._parse_selector = function(selector_name, document_) {
 
     }
 }
-
+*/
 KLEPTO.DataCollector.prototype.process_event = function (event, dom, reporter) {
-    console.log('Event process', event);
+    // console.log('Event process', event);
     if (! reporter instanceof KLEPTO.DataReporter) {
-        // console.error("bug!");
+        console.error("bug!");
     }
     reporter.send(this.id, this.extractData(dom, event) );
 }
+
 
 /*
     The data that is sent to the reporter
 */
 KLEPTO.DataCollector.prototype.extractData = function(dom) {
-    console.error("todo: extractData(dom)", this.map_entry, dom);
-    // todo:
-    return dom[this.attribute];
+    //console.log("todo: extractData(dom)", this.map_entry, dom);
+    // attribute can be text, value, radio, checkbox
+    var val;
+    switch (this.attribute) {
+        case "text":
+            val = dom["text"]
+            break;
+        case "value":
+            val = dom["value"]
+            break;
+        case "radio":
+            val = dom["radio"]  // deliberately left incorrect, to capture the error using the unit tests
+            break;
+        case "checkbox":
+            val = dom["checkbox"]  // deliberately left incorrect, to capture the error using the unit tests
+            // dom.checked -> boolean
+            // "Checked" "Unchecked"
+            break;
+        default:
+            throw "unknown attribute type"; // todo: unit test the expected behaviour
+    }
+    var val = dom[this.attribute];
+    console.log("val: "+this.attribute + " -> " + val);
+    // todo: check never null
+    return val;
 }
 
 /*
@@ -141,3 +173,5 @@ KLEPTO.DataCollector.pre_validate_mapping = function (mapping) {
         throw new InvalidMappingException("Mapping validation failed", "id", mapping);
     }
 }
+
+}(window, KLEPTO));

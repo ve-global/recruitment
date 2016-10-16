@@ -40,6 +40,9 @@ var KLEPTO = KLEPTO || {};
 	 * @param {string} data - data to send to the Back-end.
 	 */
 	DataReporter.prototype.makeRequest = function (id, data) {
+		if (data === null || data === undefined) {
+			win.console.error("something went wrong capturing data");
+		}
 		win.console.log('dataCaptured: mapping id: ' + id + ' - data: ' + data);
 	};
 

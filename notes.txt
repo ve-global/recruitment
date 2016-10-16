@@ -72,3 +72,13 @@ That browser window is the Context run the tests that need DOM (non node, browse
         lastnode.appendChild(temp);
         */
 
+
+.
+
+    /*
+    Visualiser.prototype.register = function (data_accumulator) {
+    }
+    */
+
+    https://highlightjs.org/usage/
+

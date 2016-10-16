@@ -37,10 +37,9 @@ var KLEPTO = KLEPTO || {};
         var modal = document.getElementById('myMiniPanel');
         this.modal = modal;
 
-        // appear
         this.appear();
 
-        // Make a reference to this in the closure
+        // Make a reference to "this" in the closure
         var that = this;
 
         // Get the <span> element that closes the modal
@@ -80,10 +79,6 @@ var KLEPTO = KLEPTO || {};
         this.modal.style.display = "none";
     }
 
-    /*
-    Visualiser.prototype.register = function (data_accumulator) {
-    }
-    */
     Visualiser.prototype.update = function (id, data_accumulator) {
         var dom = this.document_.querySelector("#visualiser_content_main");
         var json = JSON.stringify(data_accumulator);

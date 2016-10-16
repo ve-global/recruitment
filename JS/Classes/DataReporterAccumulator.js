@@ -4,13 +4,20 @@ var KLEPTO = KLEPTO || {};
 	'use strict';
 
 	/**
-	 * This class is managing the data by storing and sending them.
+	 * This class is managing the data by storing and showing them.
 	 *
-	 * @constructs DataReporter
+	 * @constructs DataReporterAccumulator
 	 */
-	function DataReporter() {
+	function DataReporterAccumulator(visualiser, viauslisation_id) {
 		this.data = {};
+		this.viauslisation_id = viauslisation_id || "reporter0";
+		// show error if already exists
+		// if ()
+		this.visualiser = visualiser;
+		// this.visualiser.register(this);
+		console.log("11111111111", this.visualiser);
 	}
+
 
 	/**
 	 * This method is storing the new data in the class' instance property "data" and returning wherever the data has changed or not.
@@ -20,13 +27,14 @@ var KLEPTO = KLEPTO || {};
 	 * @param {string} data - data to store in the data property.
 	 * @returns {boolean} If the value has changed or not.
 	 */
-	DataReporter.prototype.store = function (id, data) {
+	DataReporterAccumulator.prototype.store = function (id, data) {
 		var valueChanged = false;
 
 		if (!this.data[id] || this.data[id] !== data) {
 			valueChanged = true;
 			this.data[id] = data;
 		}
+		this.visualiser.update(this.viauslisation_id, data);
 
 		return valueChanged;
 	};
@@ -39,8 +47,9 @@ var KLEPTO = KLEPTO || {};
 	 * @param {number} id - Id of the data to send.
 	 * @param {string} data - data to send to the Back-end.
 	 */
-	DataReporter.prototype.makeRequest = function (id, data) {
+	DataReporterAccumulator.prototype.makeRequest = function (id, data) {
 		win.console.log('dataCaptured: mapping id: ' + id + ' - data: ' + data);
+		this.visualiser.update(this.viauslisation_id, data);
 	};
 
 	/**
@@ -51,14 +60,16 @@ var KLEPTO = KLEPTO || {};
 	 * @param {number} id - Id of the data to send/store.
 	 * @param {string} data - data to send to the Back-end.
 	 */
-	DataReporter.prototype.send = function (id, data) {
+	DataReporterAccumulator.prototype.send = function (id, data) {
 		var valueChanged = this.store(id, data);
 
 		if (valueChanged) {
 			this.makeRequest(id, data);
 		}
+
+		this.visualiser.update(this.viauslisation_id, data);
 	};
 
-	KLEPTO.DataReporter = DataReporter;
+	KLEPTO.DataReporterAccumulator = DataReporterAccumulator;
 
 }(window, KLEPTO));

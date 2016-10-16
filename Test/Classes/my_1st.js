@@ -1,4 +1,4 @@
-(function(win, classes){
+(function(win, KLEPTO){
   'use strict';
 
 describe("MyFirstTest", function() {
@@ -7,7 +7,7 @@ describe("MyFirstTest", function() {
         expect(true).toBe(true);
     })
     console.log("Setting up Sohail's test.");
-    // classes.
+    // KLEPTO.
 });
 
-}(window, classes));
+}(window, KLEPTO));

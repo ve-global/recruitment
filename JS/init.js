@@ -1,5 +1,10 @@
-(function () {
+var KLEPTO = KLEPTO || {};
+
+//var KLEPTO =
+(function (service, document) {
 	'use strict';
+
+    // var service = {};  // function () {};
 
     var data_reporters = [];
     var collector_pool = [];  // do we need this here?
@@ -9,14 +14,20 @@
 	 *
 	 * @name init
 	 */
-	function init () {
+	service.init = function () {
         // Create DataCollectors and bind them to the page
         //try {
-            data_reporters.push(new classes.DataReporter());
+            var visualiser = new KLEPTO.Visualiser(document);
+            data_reporters.push(new KLEPTO.DataReporter());
+            // data_reporters.push(new KLEPTO.DataReporterAccumulator(document))
+            data_reporters.push(new KLEPTO.DataReporterAccumulator(visualiser, "00.0"))
             create_collectors(mappings, collector_pool);
         //} catch (excep) {
         //    process_exception(excep);
         //}
+
+
+
 	}
 
     function process_exception(excep) {
@@ -34,11 +45,23 @@
         for (let m = 0; m < array_of_mappings.length; ++m) {
             let mapping_entry = array_of_mappings[m];
             // How to create multiple DataCollector-s when more than one DOM element matches?
-            let collector = new DataCollector(mapping_entry, []);
+            let collector = new KLEPTO.DataCollector(mapping_entry, []);
+            for (let i in data_reporters) {
+                collector.attach(document, data_reporters[i]);
+            }
+            /*
             collector.attach(document, data_reporters[0]);
+            collector.attach(document, data_reporters[1]);
+            */
         }
     }
 
-	document.addEventListener('DOMContentLoaded', init, false);
+	document.addEventListener('DOMContentLoaded', service.init, false);
 
-}());
+    return service;
+}(KLEPTO, document));
+
+
+if ( typeof exports !== 'undefined'  && typeof module !== 'undefined' ) {
+    module.exports = KLEPTO;
+}

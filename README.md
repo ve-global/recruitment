@@ -15,7 +15,7 @@ You will find all information related to the *DataReporter* class in available c
 
 In order for you to be able to capture and identify all those pieces of data, you have been given a 'mappings' array (*mappings.js*) that contains information on how to capture them.
 
-e.g. Let's take the mapping 1:
+e.g. Let's take the mapping 1:^
 ```javascript
 {
     id: 1,
@@ -33,7 +33,7 @@ e.g. Let's take the mapping 1:
 	* ***value:*** relate to the value of your element - e.g. your element: *&lt;input type="text" value="my value" /&gt;*, you would get: '*my value*'.
 	* ***radio:*** relate to the value of the selected radio button.
 	* ***checkbox:*** if your checkbox is checked, it should return '*Checked*', otherwise it should return '*Unchecked*'.
-* **event:** Specifies when you will be capturing the data you need  
+* **event:** Specifies when you will be capturing the data you need
 	* ***onLoad:*** When the page is loaded
 	* ***onChange:*** When the DOM element will have changed
 * **isEmail:** If this value is true, the captured value should only get stored/send when it is a valid email.

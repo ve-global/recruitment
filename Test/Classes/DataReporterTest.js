@@ -1,8 +1,8 @@
-(function(win, classes){
+  (function(win, KLEPTO){
   'use strict';
 
   describe('DataReporter', function () {
-    var DataReporter = classes.DataReporter,
+    var DataReporter = KLEPTO.DataReporter,
       dataReporterInstance;
 
     console.log("Console: Sohail");
@@ -140,4 +140,4 @@
       });
     });
   });
-}(window, classes));
+}(window, KLEPTO));

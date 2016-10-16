@@ -1,3 +1,4 @@
+
 .visualiser_panel {
     position: fixed;
     top: 10px; right: 10px;
@@ -10,6 +11,7 @@
     color: #a00;
     background-color: rgba(0,0,0, 0.1); /* Black w/ opacity */
 
+    overflow-wrap: break-word;
 }
 
 
@@ -25,3 +27,4 @@
     font-size: 15px;
     nofont-family: "sans serif";
 }
+

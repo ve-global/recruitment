@@ -1,0 +1,20 @@
+.visualiser_panel {
+    position: fixed;
+    top: 10px; right: 10px;
+    width: 200px; height: 100px;
+    border: 3px solid #73AD21;">
+
+    z-index: 1; /* Sit on top */
+    overflow: auto; /* Enable scroll if needed */
+
+    color: #a00;
+}
+
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}

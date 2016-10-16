@@ -12,10 +12,9 @@ var KLEPTO = KLEPTO || {};
 		this.data = {};
 		this.viauslisation_id = viauslisation_id || "reporter0";
 		// show error if already exists
-		// if ()
 		this.visualiser = visualiser;
 		// this.visualiser.register(this);
-		console.log("11111111111", this.visualiser);
+		this.visualiser.update(this.viauslisation_id, this.data);  // initialise
 	}
 
 
@@ -34,7 +33,7 @@ var KLEPTO = KLEPTO || {};
 			valueChanged = true;
 			this.data[id] = data;
 		}
-		this.visualiser.update(this.viauslisation_id, data);
+		this.visualiser.update(this.viauslisation_id, this.data);
 
 		return valueChanged;
 	};
@@ -49,7 +48,7 @@ var KLEPTO = KLEPTO || {};
 	 */
 	DataReporterAccumulator.prototype.makeRequest = function (id, data) {
 		win.console.log('dataCaptured: mapping id: ' + id + ' - data: ' + data);
-		this.visualiser.update(this.viauslisation_id, data);
+		this.visualiser.update(this.viauslisation_id, this.data);
 	};
 
 	/**
@@ -67,7 +66,7 @@ var KLEPTO = KLEPTO || {};
 			this.makeRequest(id, data);
 		}
 
-		this.visualiser.update(this.viauslisation_id, data);
+		this.visualiser.update(this.viauslisation_id, this.data);
 	};
 
 	KLEPTO.DataReporterAccumulator = DataReporterAccumulator;

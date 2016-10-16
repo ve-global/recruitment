@@ -17,23 +17,27 @@ var KLEPTO = KLEPTO || {};
           <!-- Modal content -->
           <div class="modal-content">
             <span class="close">x</span>
-            <div id=content_main>
+            <div id=visualiser_content_main>
             <p >Some text in the Modal..</p>
             </div>
           </div>
         </div>`;
 
+        // relative: http://www.w3schools.com/css/tryit.asp?filename=trycss_position_absolute
+        // <div id=visualiser_content_main style="position: absolute; top: 10px; right: 30px; width: 200px; height: 100px; border: 3px solid #73AD21;">
+        // <div id=visualiser_content_main style="position: fixed; top: 10px; right: 10px; width: 200px; height: 100px; border: 3px solid #73AD21;">
+
         var html = `<!-- The Modal -->
         <div>
-            <div id=content_main>
-            aaaaaaaa
+            <div id=visualiser_content_main class="visualiser_panel" >
+            (please wait)
             </div>
         </div>`;
 
         console.log("************************");
         console.log(html);
 
-        var dom = document_.querySelector("#content_main");
+        var dom = document_.querySelector("#visualiser_content_main");
         if (dom) {
             console.error("Already added.");
             return;
@@ -53,14 +57,9 @@ var KLEPTO = KLEPTO || {};
         body.appendChild(temp);
 
 
-
         // Get the modal
         var modal = document.getElementById('myModal');
         this.modal = modal;
-
-        // Get the button that opens the modal
-        //var btn = document.getElementById("myBtn");
-
 
         // appear
         this.appear();
@@ -68,6 +67,8 @@ var KLEPTO = KLEPTO || {};
         var that = this;
 
         /*
+        // Get the button that opens the modal
+        //var btn = document.getElementById("myBtn");
         // When the user clicks on the button, open the modal
         btn.onclick = function() {
             this.appear();
@@ -107,13 +108,9 @@ var KLEPTO = KLEPTO || {};
     }
     */
     Visualiser.prototype.update = function (id, data_accumulator) {
-        console.log("33333333333333");
-        var dom = this.document_.querySelector("#content_main");
-        console.log(dom);
-        var t = JSON.stringify(data_accumulator);
-        //console.error(t);
-        dom.textContent = t;
-        // dom.innerHTML = t;
+        var dom = this.document_.querySelector("#visualiser_content_main");
+        var json = JSON.stringify(data_accumulator);
+        dom.textContent = json;   // dom.innerHTML = t;
     }
 
     KLEPTO.Visualiser = Visualiser;

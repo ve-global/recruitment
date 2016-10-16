@@ -10,9 +10,10 @@ var KLEPTO = KLEPTO || {};
     //Visualiser.prototype.register_into_dom = function (document_) {
     Visualiser.prototype.setup = function (document_, window) {
 
+        /*
         // http://www.w3schools.com/howto/howto_css_modals.asp
         var html0 = `<!-- The Modal -->
-        <div id="myModal" class="modal">
+        <div id="myMiniPanel" class="modal">
 
           <!-- Modal content -->
           <div class="modal-content">
@@ -22,6 +23,7 @@ var KLEPTO = KLEPTO || {};
             </div>
           </div>
         </div>`;
+        */
 
         // relative: http://www.w3schools.com/css/tryit.asp?filename=trycss_position_absolute
         // <div id=visualiser_content_main style="position: absolute; top: 10px; right: 30px; width: 200px; height: 100px; border: 3px solid #73AD21;">
@@ -29,8 +31,11 @@ var KLEPTO = KLEPTO || {};
 
         var html = `<!-- The Modal -->
         <div>
-            <div id=visualiser_content_main class="visualiser_panel" >
+            <div class="visualiser_panel" id=myMiniPanel>
+            <span class="close">&#10006;</span>
+            <div id=visualiser_content_main>
             (please wait)
+            </div>
             </div>
         </div>`;
 
@@ -49,7 +54,7 @@ var KLEPTO = KLEPTO || {};
         temp.innerHTML = html;
         // var htmlObject = temp.firstChild;
         var body = document.querySelector("body"); //document_.getElementById("body");
-        console.log(body);
+        // console.log(body);
         /*
         var lastnode = body.lastChild;
         lastnode.appendChild(temp);
@@ -57,8 +62,8 @@ var KLEPTO = KLEPTO || {};
         body.appendChild(temp);
 
 
-        // Get the modal
-        var modal = document.getElementById('myModal');
+        // Get the modal that is closed
+        var modal = document.getElementById('myMiniPanel');
         this.modal = modal;
 
         // appear
@@ -75,14 +80,14 @@ var KLEPTO = KLEPTO || {};
         }
         */
 
-        /*
+
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
         // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
             that.disappear();
         }
-        */
+
         /*
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
@@ -98,6 +103,7 @@ var KLEPTO = KLEPTO || {};
     Visualiser.prototype.appear = function () {
         // this.modal.style.display = "block";
         //this.modal.style.display = "inline";
+        this.modal.style.display = "";
     }
     Visualiser.prototype.disappear = function () {
         this.modal.style.display = "none";

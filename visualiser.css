@@ -15,8 +15,13 @@
 
 /* The Close Button */
 .close {
-    color: #aaa;
+    position: absolute;
+    color: rgba(0,0,0, 0.6); /* Black w/ opacity */
+    /*color: #aaa;*/
+    bottom: 1px; left: 0px;
+
+    z-index: 1; /* Sit on top */
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 15px;
+    nofont-family: "sans serif";
 }

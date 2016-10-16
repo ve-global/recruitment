@@ -34,8 +34,8 @@ var KLEPTO = KLEPTO || {};
             </div>
         </div>`;
 
-        console.log("************************");
-        console.log(html);
+        //console.log("************************");
+        //console.log(html);
 
         var dom = document_.querySelector("#visualiser_content_main");
         if (dom) {

@@ -47,7 +47,7 @@ var KLEPTO = KLEPTO || {};
 	 * @param {string} data - data to send to the Back-end.
 	 */
 	DataReporterAccumulator.prototype.makeRequest = function (id, data) {
-		win.console.log('dataCaptured: mapping id: ' + id + ' - data: ' + data);
+		// win.console.log('dataCaptured: mapping id: ' + id + ' - data: ' + data);
 		this.visualiser.update(this.viauslisation_id, this.data);
 	};
 

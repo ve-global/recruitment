@@ -52,7 +52,7 @@ KLEPTO.DataCollector.prototype.attach = function (document_, reporter) {
         let dom_elem = dom_elements[eid];
         // todo: use jQuery - style binding of events to listeners.
         var that = this;
-        console.log("dom_elem", dom_elem, "event", this.getEventName());
+        //console.log("dom_elem", dom_elem, "event", this.getEventName());
         dom_elem.addEventListener(this.getEventName(),
             (e) => {that.process_event(e, dom_elem, reporter);}
         );

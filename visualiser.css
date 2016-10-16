@@ -2,12 +2,14 @@
     position: fixed;
     top: 10px; right: 10px;
     width: 200px; height: 100px;
-    border: 3px solid #73AD21;">
+    border: 3px solid rgba(0,0,0, 0.1);  /* #73AD21; */
 
     z-index: 1; /* Sit on top */
     overflow: auto; /* Enable scroll if needed */
 
     color: #a00;
+    background-color: rgba(0,0,0, 0.1); /* Black w/ opacity */
+
 }
 
 

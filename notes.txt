@@ -82,3 +82,38 @@ That browser window is the Context run the tests that need DOM (non node, browse
 
     https://highlightjs.org/usage/
 
+
+https://docs.angularjs.org/guide/unit-testing
+
+https://github.com/karma-runner/karma-jasmine
+
+
+
+Since karma-jasmine 0.3.0 the jasmine library is no longer bundled with karma-jasmine and you have to install it on your own.
+
+
+Use this, then: npm test
+ "scripts": {
+    "test": "./node_modules/karma/bin/karma start karma.conf.js"
+  },
+
+
+
+===================
+Clean Installation:
+
+To run / re-installation:
+
+clone ...
+npm install karma --save-dev
+npm install karma-jasmine karma-chrome-launcher --save-dev
+npm install  jasmine-core --save-dev
+???
+karma start
+
+======================
+
+
+http://www.bradoncode.com/blog/2015/02/27/karma-tutorial/
+http://www.bradoncode.com/blog/2015/02/27/karma-tutorial/
+http://www.bradoncode.com/blog/2015/02/27/karma-tutorial/

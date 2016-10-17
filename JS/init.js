@@ -6,11 +6,12 @@ var KLEPTO = KLEPTO || {};
 
     // var service = {};  // function () {};
 
-    var data_reporters = [];
-    var collector_pool = [];  // do we need this here?
+    // static
+    // var data_reporters = [];
+    // var collector_pool = [];  // do we need this here?
 
 	/**
-	 * This function is responsible for capturing data (based on mappings.js) and sending data (with use of DataReporter class).
+	 * This static function is responsible for capturing data (based on mappings.js) and sending data (with use of DataReporter class).
 	 *
 	 * @name init
 	 */
@@ -18,16 +19,16 @@ var KLEPTO = KLEPTO || {};
         // Create DataCollectors and bind them to the page
         //try {
             var visualiser = new KLEPTO.Visualiser(document);
+            var data_reporters = [];
             data_reporters.push(new KLEPTO.DataReporter());
             // data_reporters.push(new KLEPTO.DataReporterAccumulator(document))
-            data_reporters.push(new KLEPTO.DataReporterAccumulator(visualiser, "00.0"))
-            create_collectors(mappings, collector_pool);
+            data_reporters.push(new KLEPTO.DataReporterAccumulator(visualiser, "000"))
+            //collector_pool = [];
+            var collectors =
+                service.create_collectors(mappings, data_reporters);
         //} catch (excep) {
         //    process_exception(excep);
         //}
-
-
-
 	}
 
     function process_exception(excep) {
@@ -40,8 +41,8 @@ var KLEPTO = KLEPTO || {};
         }
     }
 
-    function create_collectors(array_of_mappings, collectorcollector_pool_pool) {
-        // collector_pool is not used
+    service.create_collectors = function (array_of_mappings, data_reporters) {
+        var collectors = [];
         for (let m = 0; m < array_of_mappings.length; ++m) {
             let mapping_entry = array_of_mappings[m];
             // How to create multiple DataCollector-s when more than one DOM element matches?
@@ -53,7 +54,9 @@ var KLEPTO = KLEPTO || {};
             collector.attach(document, data_reporters[0]);
             collector.attach(document, data_reporters[1]);
             */
+            collectors.push(collector);
         }
+        return collectors;
     }
 
 	document.addEventListener('DOMContentLoaded', service.init, false);

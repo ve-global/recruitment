@@ -1,5 +1,7 @@
 var KLEPTO = KLEPTO || {};
 
+// todo: rename DataReporterAccumulator -> DataReporterForVisualiser
+
 (function(win, KLEPTO){
 	'use strict';
 

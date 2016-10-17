@@ -15,7 +15,7 @@ var KLEPTO = KLEPTO || {};
 	 *
 	 * @name init
 	 */
-	service.init = function () {
+	my_init = function () {
         // Create DataCollectors and bind them to the page
         //try {
             var visualiser = new KLEPTO.Visualiser(document);
@@ -24,47 +24,15 @@ var KLEPTO = KLEPTO || {};
             // data_reporters.push(new KLEPTO.DataReporterAccumulator(document))
             data_reporters.push(new KLEPTO.DataReporterAccumulator(visualiser, "000"))
             //collector_pool = [];
-            var collectors =
+            var collectors =   // var collector_pool =
                 service.create_collectors(mappings, data_reporters);
         //} catch (excep) {
-        //    process_exception(excep);
+        //    service.process_exception(excep);
         //}
 	}
 
-    function process_exception(excep) {
-        if (excep instanceof DataCollectionSecurityException) {
-            console.log(excep.message);
-        } else if (excep instanceof InvalidMappingException) {
-            console.log(excep.message);
-        } else {
-            throw excep;
-        }
-    }
-
-    service.create_collectors = function (array_of_mappings, data_reporters) {
-        var collectors = [];
-        for (let m = 0; m < array_of_mappings.length; ++m) {
-            let mapping_entry = array_of_mappings[m];
-            // How to create multiple DataCollector-s when more than one DOM element matches?
-            let collector = new KLEPTO.DataCollector(mapping_entry, []);
-            for (let i in data_reporters) {
-                collector.attach(document, data_reporters[i]);
-            }
-            /*
-            collector.attach(document, data_reporters[0]);
-            collector.attach(document, data_reporters[1]);
-            */
-            collectors.push(collector);
-        }
-        return collectors;
-    }
-
-	document.addEventListener('DOMContentLoaded', service.init, false);
+	document.addEventListener('DOMContentLoaded', my_init, false);
 
     return service;
 }(KLEPTO, document));
 
-
-if ( typeof exports !== 'undefined'  && typeof module !== 'undefined' ) {
-    module.exports = KLEPTO;
-}

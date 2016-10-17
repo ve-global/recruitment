@@ -5,10 +5,19 @@ module.exports = function(config) {
             'jasmine'
         ],
         files: [
+            'JS/KLEPTO.js',
             'JS/Classes/DataReporter.js',
+            "JS/Classes/DataCollector.js",
+            "JS/Classes/DataReporterAccumulator.js",
+            "JS/Classes/Visualiser.js",
+
+            "JS/Classes/DataReporterMock.js",
+
             'Test/**',
             //'Test/Classes/DataReporterTest.js',
             //'spec/sohail/my1Spec.js',
+
+
         ],
 
         plugins : [

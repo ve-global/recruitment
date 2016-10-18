@@ -15,7 +15,7 @@ var KLEPTO = KLEPTO || {};
 	 *
 	 * @name init
 	 */
-	my_init = function () {
+	var my_init = function () {
         // Create DataCollectors and bind them to the page
         //try {
             var visualiser = new KLEPTO.Visualiser(document);

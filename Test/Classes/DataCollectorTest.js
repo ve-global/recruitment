@@ -76,12 +76,21 @@ describe('DataCollector:Radio', function() {
     it('should return male after click of a radio button', function() {
         //document.getElementById('x').value = 1;
         document.getElementById('male').click();
-        console.log(reporter_mock);
+        // document.getElementById('female').click();
+        // console.log(reporter_mock);
         reporter_mock.tick();
+        /*
+            Uncaught Error: 'expect' was used when there was no current spec, this could be because an asynchronous test timed out
 
-        //expect(reporter_mock()).toBe('third');
-        expect(reporter_mock.checkLastSubmitted(4, 'male')).toBe(true);
-        expect(reporter_mock.getLastSubmittedData(4)).toBe('male');
+            How to wait just enough for event listener to process this?
+        */
+        setTimeout(function(){
+          // not done yet.
+          //expect(reporter_mock()).toBe('third');
+          expect(reporter_mock.checkLastSubmitted(4, 'male')).toBe(true);
+          expect(reporter_mock.getLastSubmittedData(4)).toBe('male');
+          console.log("submitted: "+reporter_mock.getLastSubmittedData(4));  // not yet
+        }, 100);
     });
 
 });

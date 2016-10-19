@@ -44,12 +44,16 @@ var KLEPTO = KLEPTO || {};
 	DataReporterMock.prototype.makeRequest = function (id, data) {
 		// win.console.log('dataCaptured: mapping id: ' + id + ' - data: ' + data);
 		// var encoded = id + " : " + JSON.stringify(data);
-		var encoded = JSON.stringify({id:data});
+
+		// var dict = {id:data};  // will not work! --> {"id":data}
+		var dict = {}; dict[id] = data;
+		var encoded = JSON.stringify(dict);
 		this.transmitted_data.push(encoded);
 	};
 
 	DataReporterMock.prototype.checkLastSubmitted = function (id, data) {
-		var encoded = JSON.stringify({id:data});
+		var dict = {}; dict[id] = data;
+		var encoded = JSON.stringify(dict);
 		if (this.transmitted_data.length == 0)
 			return false;
 		var sent = this.transmitted_data[this.transmitted_data.length-1];

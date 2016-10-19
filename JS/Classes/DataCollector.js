@@ -42,7 +42,8 @@ KLEPTO.DataCollector = function (map_entry, collector_pool) {
 KLEPTO.DataCollector.prototype.attach = function (document_, reporter) {
     // var elem = document_.getElementById('email');
     // let dom_elements = KLEPTO.DataCollector._parse_selector(this.map_entry.selector, document_);
-    let dom_elements = [document_.querySelector(this.map_entry.selector)];
+    // let dom_elements = [document_.querySelector(this.map_entry.selector)];
+    let dom_elements = document_.querySelectorAll(this.map_entry.selector);
     // must use document.querySelectorAll. Otherwise will not capture ...
     // What about multiple seectors sending through the same channel?
     // How can we check for this?
@@ -50,19 +51,24 @@ KLEPTO.DataCollector.prototype.attach = function (document_, reporter) {
 
     console.log(dom_elements);
 
-    if (!dom_elements) {
-        // console.log("Nothing to do");
-        return this;
+    if (!dom_elements || dom_elements.length == 0) {
+        // Not found
+        throw new Error("DOM element(s) not found by selector");
+        //return this;
     }
 
     // console.error(dom_elements);
-    for (let eid in dom_elements) {
+    for (let eid = 0; eid < dom_elements.length; ++eid) {
         let dom_elem = dom_elements[eid];
         // todo: use jQuery - style binding of events to listeners.
         var that = this;
         //console.log("dom_elem", dom_elem, "event", this.getEventName());
-        dom_elem.addEventListener(this.getEventName(),
-            (e) => {that.process_event(e, dom_elem, reporter);}
+        dom_elem.addEventListener(
+            this.getEventName(),
+            (e) => {
+                // console.error("EVENT: ", e, " to ", dom_elem);
+                that.process_event(e, dom_elem, reporter);
+            }
         );
     }
 
@@ -130,26 +136,46 @@ KLEPTO.DataCollector.prototype.process_event = function (event, dom, reporter) {
     if (! reporter instanceof KLEPTO.DataReporter) {
         console.error("bug!");
     }
-    reporter.send(this.id, this.extractData(dom, event) );
+    var v = this.extractData(dom, event);
+    // problem: if not found, just leave it
+    if (v) {
+        reporter.send(this.id, v );
+    }
 }
 
 
 /*
     The data that is sent to the reporter
 */
-KLEPTO.DataCollector.prototype.extractData = function(dom) {
+KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
     //console.log("todo: extractData(dom)", this.map_entry, dom);
     // attribute can be text, value, radio, checkbox
-    var val;
+    var val = null;
     switch (this.attribute) {
         case "text":
+            // to do: What if dom_array has more than one element?
             val = dom["text"]
             break;
         case "value":
             val = dom["value"]
             break;
         case "radio":
-            val = dom["radio"]  // deliberately left incorrect, to capture the error using the unit tests
+        /*
+            let temp = dom["radio"]  // deliberately left incorrect, to capture the error using the unit tests
+
+            // .checked = true
+            // .id = male
+            // type=radio, name=sex, id=female, value=female
+            console.log("TEMP: dom['radio']= " + temp);
+            console.log(":   dom="+dom, dom);
+            console.log(":   event.target= " + event.target, event.target);
+            if (temp)
+                val = temp;
+            */
+
+            //var val2 = event.target.value;
+            val = dom["value"];  // value is static, but once it receives a "change", it (the *.value, i.e. the label) is the content.
+
             break;
         case "checkbox":
             val = dom["checkbox"]  // deliberately left incorrect, to capture the error using the unit tests
@@ -159,7 +185,7 @@ KLEPTO.DataCollector.prototype.extractData = function(dom) {
         default:
             throw "unknown attribute type"; // todo: unit test the expected behaviour
     }
-    var val = dom[this.attribute];
+    // var val = dom[this.attribute];
     console.log("val: "+this.attribute + " -> " + val);
     // todo: check never null
     return val;

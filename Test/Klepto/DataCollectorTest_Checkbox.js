@@ -81,7 +81,9 @@ describe('DataCollector:CheckBox', function() {
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
-            console.log(reporter_mock.anyDataSentSinceLastTickGivenId(6));
+            console.log("**************1a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
+            console.log("**************1b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
+
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(true);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(60)).toBe(null);  // does not exist
             done();
@@ -91,12 +93,14 @@ describe('DataCollector:CheckBox', function() {
 
 
 
-    it('click the first one, then see if the right one is reported not the other one', function(done) {
+    it('click the second one, then see if the right one is reported not the previous one', function(done) {
         reporter_mock.tick();
         document.getElementById('another').click();
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
+            console.log("**************2a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
+            console.log("**************2b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(60)).toBe(true);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(null);  // does not exist
             done();
@@ -104,5 +108,20 @@ describe('DataCollector:CheckBox', function() {
         );
     });  // it
 
+
+    it('click the first one again to Toggle. Then see if the right one is reported with the correct value (i.e. false)', function(done) {
+        reporter_mock.tick();
+        document.getElementById('termsAndConditions').click();
+        setTimeout(function() {
+            expect(reporter_mock.anyDataSentSinceLastTick());
+            // true = checked, false = unchecked, null = not sent (no update)
+            console.log("**************3a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
+            console.log("**************3b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(false);
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(60)).toBe(null);  // does not exist
+            done();
+          }, 20
+        );
+    });  // it
 
 });  // describe

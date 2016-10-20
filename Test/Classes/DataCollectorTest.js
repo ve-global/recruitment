@@ -10,51 +10,50 @@ describe('DataCollector:Radio', function() {
 
     // inject the DOM elements for the tests
     beforeEach(function() {
-    var fixture = `<div id="fixture">
-          <div class="radio-inline">
-            <label>
-              <input type="radio" name="sex" id="male" value="male">Male</label>
-          </div>
-          <div class="radio-inline">
-            <label>
-              <input type="radio" name="sex" id="female" value="female">Female</label>
-          </div>
-          <div class="radio-inline">
-            <label>
-              <input type="radio" name="sex" id="third" value="third">Third</label>
-          </div>
-    </div>`;
+        var fixture =
+          `<div id="fixture">
+              <div class="radio-inline">
+                <label>
+                  <input type="radio" name="sex" id="male" value="male">Male</label>
+              </div>
+              <div class="radio-inline">
+                <label>
+                  <input type="radio" name="sex" id="female" value="female">Female</label>
+              </div>
+              <div class="radio-inline">
+                <label>
+                  <input type="radio" name="sex" id="third" value="third">Third</label>
+              </div>
+          </div>`;
 
-    document.body.insertAdjacentHTML(
-      'afterbegin',
-      fixture);
-  });
+        document.body.insertAdjacentHTML('afterbegin', fixture );
+    });
 
-  // For the class to to register DOM elements
-  beforeEach(function() {
-    console.log("BEFORE EACH");
-    // this would be for the integration  test:
-    // window.KLEPTO.init();
-    /*
-            data_reporters.push(new KLEPTO.DataReporter());
-            data_reporters.push(new KLEPTO.DataReporterAccumulator(visualiser, "000"))
-            create_collectors(mappings, collector_pool);
-    */
-    var mappings = [
-        {
-            id: 4,
-            selector: 'input[name="sex"]',
-            attribute: 'radio',
-            event: 'onChange',
-            isEmail: false,
-            isPhoneNumber: false
-        },
-    ];
-    // var reporter_mock = new KLEPTO.DataReporterMock();
-    var data_reporters = [];
-    data_reporters.push(reporter_mock);
-    var collector_pool = KLEPTO.create_collectors(mappings, data_reporters);
-  });
+    // For the class to to register DOM elements
+    beforeEach(function() {
+        console.log("BEFORE EACH");
+        // this would be for the integration  test:
+        // window.KLEPTO.init();
+        /*
+                data_reporters.push(new KLEPTO.DataReporter());
+                data_reporters.push(new KLEPTO.DataReporterAccumulator(visualiser, "000"))
+                create_collectors(mappings, collector_pool);
+        */
+        var mappings = [
+            {
+                id: 4,
+                selector: 'input[name="sex"]',
+                attribute: 'radio',
+                event: 'onChange',
+                isEmail: false,
+                isPhoneNumber: false
+            },
+        ];
+        // var reporter_mock = new KLEPTO.DataReporterMock();
+        var data_reporters = [];
+        data_reporters.push(reporter_mock);
+        var collector_pool = KLEPTO.create_collectors(mappings, data_reporters);
+    });
 
     /*
     Requires: https://github.com/billtrik/karma-fixture
@@ -68,23 +67,23 @@ describe('DataCollector:Radio', function() {
     });
     */
 
-  // remove the html fixture from the DOM
-  afterEach(function() {
-    document.body.removeChild(document.getElementById('fixture'));
-  });
+    // remove the html fixture from the DOM
+    afterEach(function() {
+        document.body.removeChild(document.getElementById('fixture'));
+    });
 
     var originalTimeout = -1;
 
     beforeEach(function() {
-      // the default value was 5000
-      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000;  // it is already 5000, but just for future compatiblity.
+        // the default value was 5000
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000;  // it is already 5000, but just for future compatiblity.
     });
     afterEach(function() {
-      if (jasmine.DEFAULT_TIMEOUT_INTERVAL != 6000) {
-          console.error("Error (un)setting Jasmine's asyc timeout. originalTimeout=" + originalTimeout + "  jasmine.DEFAULT_TIMEOUT_INTERVAL = "+jasmine.DEFAULT_TIMEOUT_INTERVAL);
-      }
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        if (jasmine.DEFAULT_TIMEOUT_INTERVAL != 6000) {
+            console.error("Error (un)setting Jasmine's asyc timeout. originalTimeout=" + originalTimeout + "  jasmine.DEFAULT_TIMEOUT_INTERVAL = "+jasmine.DEFAULT_TIMEOUT_INTERVAL);
+        }
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     });
 
     it('should return male after click of a radio button', function(done) {
@@ -96,19 +95,19 @@ describe('DataCollector:Radio', function() {
         reporter_mock.tick();
         var tick_time = new Date();
         /*
-            Uncaught Error: 'expect' was used when there was no current spec, this could be because an asynchronous test timed out
+          Uncaught Error: 'expect' was used when there was no current spec, this could be because an asynchronous test timed out
 
-            How to wait just enough for event listener to process this?
-            Promise, async/await, etc.
+          How to wait just enough for event listener to process this?
+          Promise, async/await, etc.
 
-            setTimeout is not a good practice.
-            https://github.com/jasmine/jasmine/issues/694
-            http://jasmine.github.io/2.0/introduction.html#section-Mocking_the_JavaScript_Timeout_Functions
+          setTimeout is not a good practice.
+          https://github.com/jasmine/jasmine/issues/694
+          http://jasmine.github.io/2.0/introduction.html#section-Mocking_the_JavaScript_Timeout_Functions
 
-            //if jasmine.DEFAULT_TIMEOUT_INTERVAL is passed:
-            debug.html:37 Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
+          //if jasmine.DEFAULT_TIMEOUT_INTERVAL is passed:
+          debug.html:37 Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
         */
-        // console.error(jasmine.DEFAULT_TIMEOUT_INTERVAL);  // by default, it is 5000!
+        // console.error(jasmine.DEFAULT_TIMEOUT_INTERVAL);  // default value: 5000.
         setTimeout(function() {
             // not done yet.
             //expect(reporter_mock()).toBe('third');
@@ -126,6 +125,6 @@ describe('DataCollector:Radio', function() {
            * 5950+ ms = If (done) arg is used, this number can be as big as jasmine.DEFAULT_TIMEOUT_INTERVAL. This is not the same unterval used in case of "without done"
           */
         );
-    });
+    });  // it
 
-});
+});  // describe

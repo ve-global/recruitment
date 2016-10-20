@@ -151,8 +151,8 @@ describe('DataCollector:Radio', function() {
 
 
     it('should return "female" after click of a radio button', function(done) {
-        document.getElementById('female').click();
         reporter_mock.tick();
+        document.getElementById('female').click();
         setTimeout(function() {
             expect(reporter_mock.checkLastSubmitted(4, 'female')).toBe(true);
             expect(reporter_mock.getLastSubmittedData(4)).toBe('female');
@@ -162,8 +162,8 @@ describe('DataCollector:Radio', function() {
     });  // it
 
     it('should return a "third" radio option after click of a radio button', function(done) {
-        document.getElementById('third').click();
         reporter_mock.tick();
+        document.getElementById('third').click();
         setTimeout(function() {
             expect(reporter_mock.checkLastSubmitted(4, 'third')).toBe(true);
             expect(reporter_mock.getLastSubmittedData(4)).toBe('third');

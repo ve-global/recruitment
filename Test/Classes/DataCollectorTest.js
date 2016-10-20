@@ -73,24 +73,59 @@ describe('DataCollector:Radio', function() {
     document.body.removeChild(document.getElementById('fixture'));
   });
 
-    it('should return male after click of a radio button', function() {
+    var originalTimeout = -1;
+
+    beforeEach(function() {
+      // the default value was 5000
+      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000;  // it is already 5000, but just for future compatiblity.
+    });
+    afterEach(function() {
+      if (jasmine.DEFAULT_TIMEOUT_INTERVAL != 6000) {
+          console.error("Error (un)setting Jasmine's asyc timeout. originalTimeout=" + originalTimeout + "  jasmine.DEFAULT_TIMEOUT_INTERVAL = "+jasmine.DEFAULT_TIMEOUT_INTERVAL);
+      }
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
+
+    it('should return male after click of a radio button', function(done) {
+        // Note the mysterious argument "done". Specifying this will change the behaviour of Jasmine. See below.
         //document.getElementById('x').value = 1;
         document.getElementById('male').click();
         // document.getElementById('female').click();
         // console.log(reporter_mock);
         reporter_mock.tick();
+        var tick_time = new Date();
         /*
             Uncaught Error: 'expect' was used when there was no current spec, this could be because an asynchronous test timed out
 
             How to wait just enough for event listener to process this?
+            Promise, async/await, etc.
+
+            setTimeout is not a good practice.
+            https://github.com/jasmine/jasmine/issues/694
+            http://jasmine.github.io/2.0/introduction.html#section-Mocking_the_JavaScript_Timeout_Functions
+
+            //if jasmine.DEFAULT_TIMEOUT_INTERVAL is passed:
+            debug.html:37 Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
         */
-        setTimeout(function(){
-          // not done yet.
-          //expect(reporter_mock()).toBe('third');
-          expect(reporter_mock.checkLastSubmitted(4, 'male')).toBe(true);
-          expect(reporter_mock.getLastSubmittedData(4)).toBe('male');
-          console.log("submitted: "+reporter_mock.getLastSubmittedData(4));  // not yet
-        }, 100);
+        // console.error(jasmine.DEFAULT_TIMEOUT_INTERVAL);  // by default, it is 5000!
+        setTimeout(function() {
+            // not done yet.
+            //expect(reporter_mock()).toBe('third');
+            console.log("delay: ", new Date() - tick_time);
+            // console.error(jasmine.DEFAULT_TIMEOUT_INTERVAL);  // by default, it is 5000!
+            expect(reporter_mock.checkLastSubmitted(4, 'male')).toBe(true);
+            expect(reporter_mock.getLastSubmittedData(4)).toBe('male');
+            console.log("submitted: "+reporter_mock.getLastSubmittedData(4));  // not yet
+            done();
+          }, 20
+          /* 10 ms? Just enough to let event sink in eventListener. Hopefully this is enough in the test server.
+           * But how much is enough?
+           * 10 ms =good, but probably for fast PCs.
+           * 110 ms =maximum that works (most of times), if done is not used. (INTERVAL1)
+           * 5950+ ms = If (done) arg is used, this number can be as big as jasmine.DEFAULT_TIMEOUT_INTERVAL. This is not the same unterval used in case of "without done"
+          */
+        );
     });
 
 });

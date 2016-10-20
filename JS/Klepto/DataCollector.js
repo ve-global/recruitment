@@ -160,29 +160,16 @@ KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
             val = dom["text"]
             return val;
             break;
+
         case "value":
             val = dom["value"]
             return val;
             break;
+
         case "radio":
-        /*
-            let temp = dom["radio"]  // deliberately left incorrect, to capture the error using the unit tests
-
-            // .checked = true
-            // .id = male
-            // type=radio, name=sex, id=female, value=female
-            console.log("TEMP: dom['radio']= " + temp);
-            console.log(":   dom="+dom, dom);
-            console.log(":   event.target= " + event.target, event.target);
-            if (temp)
-                val = temp;
-            */
-
-            //var val2 = event.target.value;
+            // Also accesible through: event.target.value;
             val = dom["value"];  // value is static, but once it receives a "change", it (the *.value, i.e. the label) is the content.
-            // if undefined, it will NOT be reported
-            // console.log("-------------- "+val);
-            // if (typeof val === "undefined") return null;
+            // No point in checking for "undefined". If undefined, it will NOT be reported.
             return val;
 
         case "checkbox":

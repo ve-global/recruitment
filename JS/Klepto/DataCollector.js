@@ -185,16 +185,9 @@ KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
             // if (typeof val === "undefined") return null;
             return val;
 
-            break;
         case "checkbox":
-            // val = dom["checkbox"]  // deliberately left incorrect, to capture the error using the unit tests
-            // dom.checked -> boolean
-            // "Checked" "Unchecked"
-            /*
-            console.error("checkbox");
-            console.log(dom);
-            console.log(val);
-            */
+            // true: checked, false: unchecked, null: any error.
+
             var onoff = dom['value'];
             if (onoff == "on") {
                 return true;
@@ -202,10 +195,9 @@ KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
                 return false;
             }
             return null;
-            // return val;
-            // break;
+
         default:
-            throw "unknown attribute type"; // todo: unit test the expected behaviour
+            throw new Error("Trying to collect unknown attribute type. Attribute error or not implemented: "+this.attribute, this.attribute); // todo: unit test the expected behaviour
     }
     /*
     // var val = dom[this.attribute];

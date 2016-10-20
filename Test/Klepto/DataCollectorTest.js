@@ -128,4 +128,29 @@ describe('DataCollector:Radio', function() {
         );
     });  // it
 
+
+
+    it('should return "female" after click of a radio button', function(done) {
+        document.getElementById('female').click();
+        reporter_mock.tick();
+        setTimeout(function() {
+            expect(reporter_mock.checkLastSubmitted(4, 'female')).toBe(true);
+            expect(reporter_mock.getLastSubmittedData(4)).toBe('female');
+            done();
+          }, 20
+        );
+    });  // it
+
+    it('should return a "third" radio option after click of a radio button', function(done) {
+        document.getElementById('third').click();
+        reporter_mock.tick();
+        setTimeout(function() {
+            expect(reporter_mock.checkLastSubmitted(4, 'third')).toBe(true);
+            expect(reporter_mock.getLastSubmittedData(4)).toBe('third');
+            done();
+          }, 20
+        );
+    });  // it
+
+
 });  // describe

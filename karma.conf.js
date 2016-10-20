@@ -12,7 +12,6 @@ module.exports = function(config) {
             "JS/Klepto/Visualiser.js",
 
             "Test/Klepto/DataReporterMock.js",
-
             'Test/**',
             //'Test/Klepto/DataReporterTest.js',
             //'spec/sohail/my1Spec.js',
@@ -23,12 +22,11 @@ module.exports = function(config) {
         plugins : [
           'karma-chrome-launcher',
           'karma-firefox-launcher',
-          // 'karma-phantomjs-launcher',
           'karma-jasmine',
           'karma-jasmine-html-reporter'   // didnt install properly
         ],
 
-        browsers: [ //'PhantomJS',
+        browsers: [
             'Chrome',
             'FireFox'],
 
@@ -39,7 +37,7 @@ module.exports = function(config) {
             'progress',
             //'junit',
             //'coverage',
-             ],
+            ],
 
         coverageReporter: {
             type: 'html',

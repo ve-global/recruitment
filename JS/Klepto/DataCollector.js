@@ -187,11 +187,23 @@ KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
 
             break;
         case "checkbox":
-            val = dom["checkbox"]  // deliberately left incorrect, to capture the error using the unit tests
+            // val = dom["checkbox"]  // deliberately left incorrect, to capture the error using the unit tests
             // dom.checked -> boolean
             // "Checked" "Unchecked"
-            return val;
-            break;
+            /*
+            console.error("checkbox");
+            console.log(dom);
+            console.log(val);
+            */
+            var onoff = dom['value'];
+            if (onoff == "on") {
+                return true;
+            } else if (onoff == "off") {
+                return false;
+            }
+            return null;
+            // return val;
+            // break;
         default:
             throw "unknown attribute type"; // todo: unit test the expected behaviour
     }

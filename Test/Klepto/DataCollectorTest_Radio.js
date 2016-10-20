@@ -32,7 +32,7 @@ describe('DataCollector:Radio', function() {
 
     // For the class to to register DOM elements
     beforeEach(function() {
-        console.log("BEFORE EACH");
+        // console.log("BEFORE EACH");
         // this would be for the integration  test:
         // window.KLEPTO.init();
         /*
@@ -86,6 +86,26 @@ describe('DataCollector:Radio', function() {
         }
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     });
+
+    // negative test: no data is sent when nothing is selected. This tests the reporter mock class
+    it('Initially, none is selected and nothing reported', function(done) {
+        //document.getElementById('third').click();
+        //nothing will be reported
+        reporter_mock.tick();
+        setTimeout(function() {
+            expect(!reporter_mock.anyDataSentSinceLastTick());
+            /*
+            expect(reporter_mock.checkLastSubmitted(4, 'third')).toBe(false);
+            var val = reporter_mock.getLastSubmittedData(4);
+            console.log("val:");
+            console.log(val);
+            expect(val).toBe(null);  // can be undefined
+            expect(!!val).toBe(false);
+            */
+            done();
+          }, 20
+        );
+    });  // it
 
     it('should return male after click of a radio button', function(done) {
         // Note the mysterious argument "done". Specifying this will change the behaviour of Jasmine. See below.

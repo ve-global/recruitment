@@ -118,7 +118,7 @@ var KLEPTO = KLEPTO || {};
 
 	DataReporterMock.prototype.anyDataSentSinceLastTick = function () {
 		if (this._tick == -1)
-			throw new Error("No tick found");
+			return false;
 		var current = this.transmitted_data.length-1;  // index of the last element
 		return current > this._tick;
 	};

@@ -138,7 +138,7 @@ KLEPTO.DataCollector.prototype.process_event = function (event, dom, reporter) {
     }
     var v = this.extractData(dom, event);
     // problem: if not found, just leave it
-    if (v) {
+    if (v !== undefined && v !== null) {
         reporter.send(this.id, v );
     }
 }
@@ -146,8 +146,11 @@ KLEPTO.DataCollector.prototype.process_event = function (event, dom, reporter) {
 
 /*
     The data that is sent to the reporter
+    Important: if undefined or null is returned, it will NOT be reported.
+    However, 0 or "" are reported.
 */
 KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
+
     //console.log("todo: extractData(dom)", this.map_entry, dom);
     // attribute can be text, value, radio, checkbox
     var val = null;
@@ -155,9 +158,11 @@ KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
         case "text":
             // to do: What if dom_array has more than one element?
             val = dom["text"]
+            return val;
             break;
         case "value":
             val = dom["value"]
+            return val;
             break;
         case "radio":
         /*
@@ -175,20 +180,27 @@ KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
 
             //var val2 = event.target.value;
             val = dom["value"];  // value is static, but once it receives a "change", it (the *.value, i.e. the label) is the content.
+            // if undefined, it will NOT be reported
+            // console.log("-------------- "+val);
+            // if (typeof val === "undefined") return null;
+            return val;
 
             break;
         case "checkbox":
             val = dom["checkbox"]  // deliberately left incorrect, to capture the error using the unit tests
             // dom.checked -> boolean
             // "Checked" "Unchecked"
+            return val;
             break;
         default:
             throw "unknown attribute type"; // todo: unit test the expected behaviour
     }
+    /*
     // var val = dom[this.attribute];
     console.log("val: "+this.attribute + " -> " + val);
     // todo: check never null
     return val;
+    */
 }
 
 /*

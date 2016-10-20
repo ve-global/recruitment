@@ -6,15 +6,15 @@ module.exports = function(config) {
         ],
         files: [
             'JS/KLEPTO.js',
-            'JS/Classes/DataReporter.js',
-            "JS/Classes/DataCollector.js",
-            "JS/Classes/DataReporterAccumulator.js",
-            "JS/Classes/Visualiser.js",
+            'JS/Klepto/DataReporter.js',
+            "JS/Klepto/DataCollector.js",
+            "JS/Klepto/DataReporterAccumulator.js",
+            "JS/Klepto/Visualiser.js",
 
-            "JS/Classes/DataReporterMock.js",
+            "Test/Klepto/DataReporterMock.js",
 
             'Test/**',
-            //'Test/Classes/DataReporterTest.js',
+            //'Test/Klepto/DataReporterTest.js',
             //'spec/sohail/my1Spec.js',
 
 

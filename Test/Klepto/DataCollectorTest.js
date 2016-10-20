@@ -8,6 +8,7 @@ describe('DataCollector:Radio', function() {
 
     var reporter_mock = new KLEPTO.DataReporterMock();
 
+
     // inject the DOM elements for the tests
     beforeEach(function() {
         var fixture =

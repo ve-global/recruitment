@@ -26,10 +26,10 @@ npm install karma-firefox-extra-launcher --save-dev   # any useful?
 
 The organisation is like this:
 JS
-    Classes
+    Klepto
         *.js
 Tests
-    Classes
+    Klepto
         *.js
 
 

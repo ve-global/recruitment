@@ -81,9 +81,9 @@ describe('DataCollector:CheckBox', function() {
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
-            console.log( document.getElementById('termsAndConditions')    ['value'] );
-            console.log("**************1a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
-            console.log("**************1b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
+            //
+            // alternative way of testing: check if it is "on":
+            //    document.getElementById('termsAndConditions')    ['value']
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(true);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(60)).toBe(null);  // does not exist
             done();
@@ -102,9 +102,10 @@ describe('DataCollector:CheckBox', function() {
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
             // reporter_mock.reportSinceLastTick();
-            console.log("2 ", document.getElementById('another')    ['value'] );
-            console.log("**************2a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
-            console.log("**************2b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
+            // Another way of testing would be to compare based on:
+            //      document.getElementById('another') ['value']
+            //console.log("**************2a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
+            //console.log("**************2b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(60)).toBe(true);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(true);
             //expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(null);  // does not exist

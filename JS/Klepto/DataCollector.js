@@ -49,7 +49,7 @@ KLEPTO.DataCollector.prototype.attach = function (document_, reporter) {
     // How can we check for this?
     // // todo: unit test that checks the problem with the radio-button.
 
-    console.log(dom_elements);
+    // console.log(dom_elements);
 
     if (!dom_elements || dom_elements.length == 0) {
         // Not found

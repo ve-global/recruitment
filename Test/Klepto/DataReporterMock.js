@@ -145,13 +145,14 @@ var KLEPTO = KLEPTO || {};
 	/** Checks if data since "a given point in past" has been sent for key (id).
 	 Returns null if not such data is sent recently since the "since" point. */
 	DataReporterMock.prototype.anyDataSentSinceLastTickGivenIdSince = function (id, since_idx) {
+		console.log("anyDataSentSinceLastTickGivenIdSince(", id, ",", since_idx,")");
 		// since_idx = this._tick;
 		// if (since_idx == -1) since_idx = 0;
 		var begin = since_idx;
 		if (begin < 0) begin = 0;
 		var last = this.transmitted_data.length-1;  // index of the last element
 		for (var i = begin; i <= last; ++i) {
-			var sent = this.transmitted_data[last];
+			var sent = this.transmitted_data[i];  // haha what a bug!! classic.
 			var dict = JSON.parse(sent);
 			console.log(dict);
 			if (dict[id] !== undefined) {
@@ -164,6 +165,7 @@ var KLEPTO = KLEPTO || {};
 
 	/** Checks if data since last .tick() exist for key (id). Returns null if nothing is sent since then. */
 	DataReporterMock.prototype.anyDataSentSinceLastTickGivenId = function (id) {
+		this.reportSinceLastTick();
 		return this.anyDataSentSinceLastTickGivenIdSince(id, this._tick);
 		/*
 		// if (this._tick == -1)
@@ -203,6 +205,21 @@ var KLEPTO = KLEPTO || {};
 			throw new Error("No tick found");
 		var current = this.transmitted_data.length-1;  // index of the last element
 		return current - this._tick;
+	};
+
+	/** Prints out, in consol.log, all the data since last tick(). */
+	DataReporterMock.prototype.reportSinceLastTick = function () {
+		console.log("All the data since last tick():");
+		var start;
+		if (this._tick == -1) {
+			start = 0;
+		} else {
+			start = this._tick;
+		}
+		for (var i = start; i< this.transmitted_data.length; ++i) {
+			console.log(i+""+(i==this._tick?"tick":"")+":", this.transmitted_data[i]);
+		}
+		console.log(".");
 	};
 
 

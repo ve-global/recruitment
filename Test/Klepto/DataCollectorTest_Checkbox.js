@@ -101,6 +101,7 @@ describe('DataCollector:CheckBox', function() {
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
+            // reporter_mock.reportSinceLastTick();
             console.log("2 ", document.getElementById('another')    ['value'] );
             console.log("**************2a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
             console.log("**************2b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
@@ -108,7 +109,7 @@ describe('DataCollector:CheckBox', function() {
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(true);
             //expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(null);  // does not exist
             done();
-          }, 20
+          }, 20  // 20: not portable
         );
     });  // it
 

@@ -12,12 +12,12 @@ describe('DataCollector:CheckBox', function() {
 
           <div class="checkbox">
             <label>
-              <input type="checkbox" id="termsAndConditions">I Agree To The Terms & Conditions</label>
+              <input type="checkbox" id="termsAndConditions6">I Agree To The Terms & Conditions</label>
           </div>
 
           <div class="checkbox">
             <label>
-              <input type="checkbox" id="another">Another</label>
+              <input type="checkbox" id="anotherCheckbox55">Another</label>
           </div>
 
     </div>`;
@@ -25,15 +25,15 @@ describe('DataCollector:CheckBox', function() {
     var mappings = [
         {
             id: 6,
-            selector: '#termsAndConditions',
+            selector: '#termsAndConditions6',
             attribute: 'checkbox',
             event: 'onChange',
             isEmail: false,
             isPhoneNumber: false
         },
         {
-            id: 60,
-            selector: '#another',
+            id: 55,
+            selector: '#anotherCheckbox55',
             attribute: 'checkbox',
             event: 'onChange',
             isEmail: false,
@@ -77,15 +77,15 @@ describe('DataCollector:CheckBox', function() {
     */
     it('click the first one, then see if the right one is reported not the other one', function(done) {
         reporter_mock.tick();
-        document.getElementById('termsAndConditions').click();
+        document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
             //
             // alternative way of testing: check if it is "on":
-            //    document.getElementById('termsAndConditions')    ['value']
+            //    document.getElementById('termsAndConditions6')    ['value']
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(true);
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(60)).toBe(null);  // does not exist
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55)).toBe(null);  // does not exist
             done();
           }, 20
         );
@@ -95,18 +95,18 @@ describe('DataCollector:CheckBox', function() {
 
     it('click the second one, then see if the right one is reported not the previous one', function(done) {
         reporter_mock.tick();
-        document.getElementById('termsAndConditions').click();
+        document.getElementById('termsAndConditions6').click();
         // reporter_mock.tick();
-        document.getElementById('another').click();
+        document.getElementById('anotherCheckbox55').click();
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
             // reporter_mock.reportSinceLastTick();
             // Another way of testing would be to compare based on:
-            //      document.getElementById('another') ['value']
+            //      document.getElementById('anotherCheckbox55') ['value']
             //console.log("**************2a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
-            //console.log("**************2b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(60)).toBe(true);
+            //console.log("**************2b", reporter_mock.anyDataSentSinceLastTickGivenId(55)); // true
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55)).toBe(true);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(true);
             //expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(null);  // does not exist
             done();
@@ -114,25 +114,25 @@ describe('DataCollector:CheckBox', function() {
         );
     });  // it
 
-    /*
+
     it('click the first one again to Toggle. Then see if the right one is reported with the correct value (i.e. false)', function(done) {
         reporter_mock.tick();
-        document.getElementById('termsAndConditions').click();
+        document.getElementById('termsAndConditions6').click();
         // reporter_mock.tick();
         // how to wait before the tick() is applied here?
-        document.getElementById('termsAndConditions').click();
+        document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
-            console.log("3 "+ document.getElementById('termsAndConditions') ['value']);
+            console.log("3 "+ document.getElementById('termsAndConditions6') ['value']);
             console.log("**************3a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
-            console.log("**************3b", reporter_mock.anyDataSentSinceLastTickGivenId(60)); // true
+            console.log("**************3b", reporter_mock.anyDataSentSinceLastTickGivenId(55)); // true
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(false);
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(60)).toBe(null);  // does not exist
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55)).toBe(null);  // does not exist
             done();
           }, 20
         );
     });  // it
-    */
+
 
 });  // describe

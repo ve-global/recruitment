@@ -26,9 +26,14 @@ var KLEPTO = KLEPTO || {};
 	 */
 	DataReporterMock.prototype.store = function (id, data) {
 		var valueChanged = false;
+
+
 		if (!this.data[id] || this.data[id] !== data) {
 			valueChanged = true;
 			this.data[id] = data;
+		}
+		else {
+			console.log("data not changed(a): ", id, data, this.data[id]);
 		}
 		return valueChanged;
 	};
@@ -62,12 +67,25 @@ var KLEPTO = KLEPTO || {};
 	 */
 	DataReporterMock.prototype.send = function (id, data) {
 		var valueChanged = this.store(id, data);
+		if (!valueChanged) {
+			console.log("data not changed(b) ", id, data);
+		}
 
 		if (valueChanged) {
 			this.makeRequest(id, data);
 		}
 	};
 
+	/**
+	 *  Resets the cached values so to keep reporting, because the DOM elements are new, otherwise it may incorrectly report as "not changed".
+	 *  Possible names: reset_change_tracker, or reset_changes  or reset_chaches  or reset_change_cache
+	 *  does not reset the ._tick
+	 * @return     {(boolean|number)}  { description_of_the_return_value }
+	 */
+	DataReporterMock.prototype.resetChangeCaches = function () {
+		this.data = {};
+		// does not reset the _tick
+	}
 
     // *************
 	// Various ways of interrogating about the (recently) sent data.
@@ -143,11 +161,27 @@ var KLEPTO = KLEPTO || {};
 	};
 
 	/** Checks if data since "a given point in past" has been sent for key (id).
-	 Returns null if not such data is sent recently since the "since" point. */
-	DataReporterMock.prototype.anyDataSentSinceLastTickGivenIdSince = function (id, since_idx) {
+	 Returns null if not such data is sent recently since the "since" point.
+	 If there are multiple reports firast (report_last==false) or last (report_last==true)*/
+	DataReporterMock.prototype.anyDataSentSinceLastTickGivenIdSince = function (id, since_idx, report_which) {
 		// console.log("anyDataSentSinceLastTickGivenIdSince(", id, ",", since_idx,")");
 		// since_idx = this._tick;
 		// if (since_idx == -1) since_idx = 0;
+		// var report_first = !report_last;
+		var report_first;
+		var report_last;
+		if (report_which == "first") {
+			report_first = true;
+			report_last = false;
+		} else if (report_which == "last") {
+			report_first = false;
+			report_last = true;
+		} else {
+			throw "Invalid usage. Either \"first\" or \"last\"";
+		}
+		var last_answer = null;
+		var multiple_found = 0;
+
 		var begin = since_idx;
 		if (begin < 0) begin = 0;
 		var last = this.transmitted_data.length-1;  // index of the last element
@@ -157,16 +191,27 @@ var KLEPTO = KLEPTO || {};
 			// console.log(dict);
 			if (dict[id] !== undefined) {
 				// console.log("FOUND: " + dict[id]);
-				return dict[id];
+				if (report_first) {
+					return dict[id];
+				}
+				if (report_last) {
+					last_answer = dict[id];
+				}
+				multiple_found ++;
 			}
+		}
+		if (report_last) {
+			return last_answer;
 		}
 		return null;  // item sent as 'id' does not exist
 	};
 
-	/** Checks if data since last .tick() exist for key (id). Returns null if nothing is sent since then. */
-	DataReporterMock.prototype.anyDataSentSinceLastTickGivenId = function (id) {
+	/** Checks if data since last .tick() exist for key (id). Returns null if nothing is sent since then.
+     If multiple data has been sent, reports the either the "first" or "last" item accrtding to the report_which argument. */
+	DataReporterMock.prototype.anyDataSentSinceLastTickGivenId = function (id, report_which) {
 		// this.reportSinceLastTick();
-		return this.anyDataSentSinceLastTickGivenIdSince(id, this._tick);
+		// +1 becuse ._tick marks the one "before" the first one.
+		return this.anyDataSentSinceLastTickGivenIdSince(id, this._tick+1, report_which);
 		/*
 		// if (this._tick == -1)
 		//	return false;
@@ -210,15 +255,22 @@ var KLEPTO = KLEPTO || {};
 	/** Prints out in consol.log all the data since last tick().
 	 * Used for debugging. */
 	DataReporterMock.prototype.reportSinceLastTick = function () {
-		console.log("All the data since last tick():");
+		console.log("Recnt data since last tick():");
 		var start;
 		if (this._tick == -1) {
 			start = 0;
 		} else {
-			start = this._tick;
+			start = this._tick + 1;
 		}
 		for (var i = start; i< this.transmitted_data.length; ++i) {
-			console.log(i+""+(i==this._tick?"tick":"")+":", this.transmitted_data[i]);
+			console.log(i+""+(i==this._tick?".tick":"")+":", this.transmitted_data[i]);
+		}
+		console.log(".");
+	};
+	DataReporterMock.prototype.reportAll = function () {
+		console.log("All the data():");
+		for (var i = 0; i< this.transmitted_data.length; ++i) {
+			console.log(i+""+(i==this._tick?".tick":"")+":", this.transmitted_data[i]);
 		}
 		console.log(".");
 	};

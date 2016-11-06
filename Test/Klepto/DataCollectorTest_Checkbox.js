@@ -19,6 +19,10 @@ describe('DataCollector:CheckBox', function() {
             <label>
               <input type="checkbox" id="anotherCheckbox55">Another</label>
           </div>
+          <div class="checkbox">
+            <label>
+              <input checked type="checkbox" id="on_by_default7">on_by_default</label>
+          </div>
 
     </div>`;
 
@@ -34,6 +38,14 @@ describe('DataCollector:CheckBox', function() {
         {
             id: 55,
             selector: '#anotherCheckbox55',
+            attribute: 'checkbox',
+            event: 'onChange',
+            isEmail: false,
+            isPhoneNumber: false
+        },
+        {
+            id: 7,
+            selector: '#on_by_default7',
             attribute: 'checkbox',
             event: 'onChange',
             isEmail: false,
@@ -62,6 +74,7 @@ describe('DataCollector:CheckBox', function() {
     beforeEach(function() {
         originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000;  // it is already 5000, but just for future compatiblity.
+
     });
     afterEach(function() {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
@@ -76,16 +89,19 @@ describe('DataCollector:CheckBox', function() {
         Toggle one by a third click.
     */
     it('click the first one, then see if the right one is reported not the other one', function(done) {
+        reporter_mock.resetChangeCaches();   // resets the cached values so to keep reporting, because the DOM elements are new, otherwise it may incorrectly report as "not changed".
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
+            console.log("data after one clicks: 6");
+            // reporter_mock.reportAll();
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
             //
             // alternative way of testing: check if it is "on":
             //    document.getElementById('termsAndConditions6')    ['value']
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(true);
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55)).toBe(null);  // does not exist
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")).toBe(true);
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55, "first")).toBe(null);  // should not exist
             done();
           }, 20
         );
@@ -94,21 +110,25 @@ describe('DataCollector:CheckBox', function() {
 
 
     it('click the second one, then see if the right one is reported not the previous one', function(done) {
+        reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         // reporter_mock.tick();
         document.getElementById('anotherCheckbox55').click();
         setTimeout(function() {
+            console.log("data after 2 clicks: 6,55");
+            // reporter_mock.reportAll();
+
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
             // reporter_mock.reportSinceLastTick();
             // Another way of testing would be to compare based on:
             //      document.getElementById('anotherCheckbox55') ['value']
-            //console.log("**************2a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
-            //console.log("**************2b", reporter_mock.anyDataSentSinceLastTickGivenId(55)); // true
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55)).toBe(true);
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(true);
-            //expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(null);  // does not exist
+            //console.log("**************2a", reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")); // null
+            //console.log("**************2b", reporter_mock.anyDataSentSinceLastTickGivenId(55, "first")); // true
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55, "first")).toBe(true);
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")).toBe(true);
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(7, "first")).toBe(null);  // should not exist
             done();
           }, 20  // 20: not portable
         );
@@ -116,19 +136,75 @@ describe('DataCollector:CheckBox', function() {
 
 
     it('click the first one again to Toggle. Then see if the right one is reported with the correct value (i.e. false)', function(done) {
+        // This test actually helped finding bugs.
+        reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         // reporter_mock.tick();
         // how to wait before the tick() is applied here?
         document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
+            console.log("data after 2 clicks: 6,6");
+            // reporter_mock.reportAll();
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
-            console.log("3 "+ document.getElementById('termsAndConditions6') ['value']);
-            console.log("**************3a", reporter_mock.anyDataSentSinceLastTickGivenId(6)); // null
-            console.log("**************3b", reporter_mock.anyDataSentSinceLastTickGivenId(55)); // true
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6)).toBe(false);
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55)).toBe(null);  // does not exist
+            // console.log("3 "+ document.getElementById('termsAndConditions6') ['value']);
+            // console.log("**************3a", reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")); // null
+            // console.log("**************3b", reporter_mock.anyDataSentSinceLastTickGivenId(55, "first")); // true
+            // reporter_mock.reportAll();
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6, "last")).toBe(false);
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")).toBe(true);
+            // reporter_mock.reportAll();
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(55, "first")).toBe(null);  // should not exist
+
+            // second test
+            expect(document.getElementById('termsAndConditions6').checked).toBe(false);
+            expect(document.getElementById('anotherCheckbox55').checked).toBe(false);
+            // Deliberately break the TDD test, making sure this does the test:
+            expect(document.getElementById('on_by_default7').checked).toBe(false);
+            done();
+          }, 20
+        );
+    });  // it
+
+    it('click a checkbox that is initially (by default) on', function(done) {
+        reporter_mock.resetChangeCaches();
+        reporter_mock.tick();
+
+        document.getElementById('on_by_default7').click();
+        setTimeout(function() {
+            // reporter_mock.reportAll();
+            //expect(reporter_mock.anyDataSentSinceLastTick());
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(7, "first")).toBe(false);
+            done();
+          }, 20
+        );
+    });  // it
+
+    /*
+    it('Make sure it doesn\'t send unchanged data', function(done) {
+        reporter_mock.resetChangeCaches();
+        reporter_mock.tick();
+        document.getElementById('termsAndConditions6').click();  // on
+        document.getElementById('termsAndConditions6').checked = false;  // the problem is, this does not trgger listeners.
+        setTimeout(function() {
+            reporter_mock.reportAll();
+            // nothing should be sent
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")).toBe(null);
+            done();
+          }, 20
+        );
+    });  // it
+    */
+
+    it('If not clicked since last tick(), should not report anything. (tests the tick)', function(done) {
+        reporter_mock.resetChangeCaches();
+        document.getElementById('on_by_default7').click();
+        reporter_mock.tick(); // note that this is AFTER the click()
+        setTimeout(function() {
+            // reporter_mock.reportAll();
+            expect(reporter_mock.anyDataSentSinceLastTick());
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(7, "first")).toBe(null);
             done();
           }, 20
         );

@@ -174,11 +174,18 @@ KLEPTO.DataCollector.prototype.extractData = function(dom, event) {
 
         case "checkbox":
             // true: checked, false: unchecked, null: any error.
-
+            /*
             var onoff = dom['value'];
+            console.error("onoff", onoff, dom, dom.checked);
             if (onoff == "on") {
                 return true;
             } else if (onoff == "off") {
+                return false;
+            }
+            */
+            if (dom.checked) {
+                return true;
+            } else {
                 return false;
             }
             return null;

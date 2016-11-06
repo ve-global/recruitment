@@ -181,6 +181,7 @@ describe('DataCollector:CheckBox', function() {
     });  // it
 
     /*
+    This is not possible to be tested using checkbox.
     it('Make sure it doesn\'t send unchanged data', function(done) {
         reporter_mock.resetChangeCaches();
         reporter_mock.tick();

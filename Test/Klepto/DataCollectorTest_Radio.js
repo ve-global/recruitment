@@ -89,7 +89,8 @@ describe('DataCollector:Radio', function() {
 
     // negative test: no data is sent when nothing is selected. This tests the reporter mock class
     it('Initially, none is selected and nothing reported', function(done) {
-        //document.getElementById('third').click();
+        reporter_mock.resetChangeCaches();
+            //document.getElementById('third').click();
         //nothing will be reported
         reporter_mock.tick();
         setTimeout(function() {
@@ -108,6 +109,7 @@ describe('DataCollector:Radio', function() {
     });  // it
 
     it('should return male after click of a radio button', function(done) {
+        reporter_mock.resetChangeCaches();
         // Note the mysterious argument "done". Specifying this will change the behaviour of Jasmine. See below.
         //document.getElementById('x').value = 1;
         document.getElementById('male').click();
@@ -151,11 +153,13 @@ describe('DataCollector:Radio', function() {
 
 
     it('should return "female" after click of a radio button', function(done) {
+        reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('female').click();
         setTimeout(function() {
             expect(reporter_mock.checkLastSubmitted(4, 'female')).toBe(true);
             expect(reporter_mock.getLastSubmittedData(4)).toBe('female');
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(4, "first")).toBe('female');  // new better style
             done();
           }, 20
         );
@@ -167,10 +171,37 @@ describe('DataCollector:Radio', function() {
         setTimeout(function() {
             expect(reporter_mock.checkLastSubmitted(4, 'third')).toBe(true);
             expect(reporter_mock.getLastSubmittedData(4)).toBe('third');
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(4, "first")).toBe('third');  // new better style
             done();
           }, 20
         );
     });  // it
 
+
+    it('Check if it avoids sending repeated data', function(done) {
+        reporter_mock.resetChangeCaches();
+        reporter_mock.tick();
+        document.getElementById('female').click();
+        reporter_mock.tick();
+        document.getElementById('female').click();
+        setTimeout(function() {
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(4, "first")).toBe(null);
+
+            done();
+          }, 20
+        );
+    });  // it
+    it('(see last test) ... but it does send the data  if we did not tick() between two clicks() on the same radio option.', function(done) {
+        reporter_mock.resetChangeCaches();
+        reporter_mock.tick();
+        document.getElementById('female').click();
+        document.getElementById('female').click();
+        setTimeout(function() {
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(4, "first")).toBe('female');
+            expect(reporter_mock.countChunksSentSinceLastTick()).toBe(1);
+            done();
+          }, 20
+        );
+    });  // it
 
 });  // describe

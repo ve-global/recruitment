@@ -76,6 +76,9 @@ describe('DataCollector:CheckBox', function() {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000;  // it is already 5000, but just for future compatiblity.
 
     });
+    afterEach(function() {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
 
     beforeEach(function() {
         // resets the cached values so to keep reporting, because the DOM elements are new, otherwise it may incorrectly report as "not changed".
@@ -84,9 +87,6 @@ describe('DataCollector:CheckBox', function() {
         reporter_mock.resetChangeCaches();
     });
 
-    afterEach(function() {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-    });
 
 
     /**

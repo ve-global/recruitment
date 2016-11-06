@@ -101,7 +101,7 @@ describe('DataCollector:CheckBox', function() {
         document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
             // reporter_mock.reportAll();
-            expect(reporter_mock.anyDataSentSinceLastTick());
+            expect(!!reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             // true = checked, false = unchecked, null = not sent (no update)
             //
             // alternative way of testing: check if it is "on":
@@ -123,7 +123,7 @@ describe('DataCollector:CheckBox', function() {
         setTimeout(function() {
             // reporter_mock.reportAll();
 
-            expect(reporter_mock.anyDataSentSinceLastTick());
+            expect(!!reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             // true = checked, false = unchecked, null = not sent (no update)
             // reporter_mock.reportSinceLastTick();
             // Another way of testing would be to compare based on:
@@ -147,7 +147,7 @@ describe('DataCollector:CheckBox', function() {
         document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
             // reporter_mock.reportAll();
-            expect(reporter_mock.anyDataSentSinceLastTick());
+            expect(!!reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             // true = checked, false = unchecked, null = not sent (no update)
             // console.log("3 "+ document.getElementById('termsAndConditions6') ['value']);
             // console.log("**************3a", reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")); // null
@@ -201,7 +201,7 @@ describe('DataCollector:CheckBox', function() {
         reporter_mock.tick(); // note that this is AFTER the click()
         setTimeout(function() {
             // reporter_mock.reportAll();
-            expect(reporter_mock.anyDataSentSinceLastTick());
+            expect(!!reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(7, "first")).toBe(null);
             done();
           }, 20

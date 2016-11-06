@@ -98,7 +98,7 @@ describe('DataCollector:Radio', function() {
         //nothing will be reported
         reporter_mock.tick();
         setTimeout(function() {
-            expect(!reporter_mock.anyDataSentSinceLastTick());
+            expect(reporter_mock.anyDataSentSinceLastTick()).toBe(false);
             /*
             expect(reporter_mock.checkLastSubmitted(4, 'third')).toBe(false);
             var val = reporter_mock.getLastSubmittedData(4);

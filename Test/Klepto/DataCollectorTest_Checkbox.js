@@ -97,12 +97,9 @@ describe('DataCollector:CheckBox', function() {
         Toggle one by a third click.
     */
     it('click the first one, then see if the right one is reported not the other one', function(done) {
-        // moved to beforeach():
-        // reporter_mock.resetChangeCaches();   // resets the cached values so to keep reporting, because the DOM elements are new, otherwise it may incorrectly report as "not changed".
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
-            console.log("data after one clicks: 6");
             // reporter_mock.reportAll();
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
@@ -119,14 +116,11 @@ describe('DataCollector:CheckBox', function() {
 
 
     it('click the second one, then see if the right one is reported not the previous one', function(done) {
-        // moved to beforeach():
-        // reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         // reporter_mock.tick();
         document.getElementById('anotherCheckbox55').click();
         setTimeout(function() {
-            console.log("data after 2 clicks: 6,55");
             // reporter_mock.reportAll();
 
             expect(reporter_mock.anyDataSentSinceLastTick());
@@ -146,15 +140,12 @@ describe('DataCollector:CheckBox', function() {
 
 
     it('click the first one again to Toggle. Then see if the right one is reported with the correct value (i.e. false)', function(done) {
-        // moved to beforeach():
-        // reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         // reporter_mock.tick();
         // how to wait before the tick() is applied here?
         document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
-            console.log("data after 2 clicks: 6,6");
             // reporter_mock.reportAll();
             expect(reporter_mock.anyDataSentSinceLastTick());
             // true = checked, false = unchecked, null = not sent (no update)
@@ -177,8 +168,6 @@ describe('DataCollector:CheckBox', function() {
     });  // it
 
     it('click a checkbox that is initially (by default) on', function(done) {
-        // moved to beforeach():
-        // reporter_mock.resetChangeCaches();
         reporter_mock.tick();
 
         document.getElementById('on_by_default7').click();
@@ -194,7 +183,6 @@ describe('DataCollector:CheckBox', function() {
     /*
     This is not possible to be tested using checkbox.
     it('Make sure it doesn\'t send unchanged data', function(done) {
-        reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();  // on
         document.getElementById('termsAndConditions6').checked = false;  // the problem is, this does not trgger listeners.
@@ -209,8 +197,6 @@ describe('DataCollector:CheckBox', function() {
     */
 
     it('If not clicked since last tick(), should not report anything. (tests the tick)', function(done) {
-        // moved to beforeach():
-        // reporter_mock.resetChangeCaches();
         document.getElementById('on_by_default7').click();
         reporter_mock.tick(); // note that this is AFTER the click()
         setTimeout(function() {

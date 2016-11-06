@@ -160,8 +160,7 @@ describe('DataCollector:CheckBox', function() {
             // second test
             expect(document.getElementById('termsAndConditions6').checked).toBe(false);
             expect(document.getElementById('anotherCheckbox55').checked).toBe(false);
-            // Deliberately break the TDD test, making sure this does the test:
-            expect(document.getElementById('on_by_default7').checked).toBe(false);
+            expect(document.getElementById('on_by_default7').checked).toBe(true);
             done();
           }, 20
         );

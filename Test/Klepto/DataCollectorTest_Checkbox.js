@@ -76,6 +76,14 @@ describe('DataCollector:CheckBox', function() {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000;  // it is already 5000, but just for future compatiblity.
 
     });
+
+    beforeEach(function() {
+        // resets the cached values so to keep reporting, because the DOM elements are new, otherwise it may incorrectly report as "not changed".
+        // This test actually helped finding bugs.
+        // When removed, it correctly broke some tests. Try commenting the following line and see some tests breaking. How to automatically do this in a TDD framework? (i.e. to test whether a line makes a difference in the tests).
+        reporter_mock.resetChangeCaches();
+    });
+
     afterEach(function() {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     });
@@ -89,7 +97,8 @@ describe('DataCollector:CheckBox', function() {
         Toggle one by a third click.
     */
     it('click the first one, then see if the right one is reported not the other one', function(done) {
-        reporter_mock.resetChangeCaches();   // resets the cached values so to keep reporting, because the DOM elements are new, otherwise it may incorrectly report as "not changed".
+        // moved to beforeach():
+        // reporter_mock.resetChangeCaches();   // resets the cached values so to keep reporting, because the DOM elements are new, otherwise it may incorrectly report as "not changed".
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         setTimeout(function() {
@@ -110,7 +119,8 @@ describe('DataCollector:CheckBox', function() {
 
 
     it('click the second one, then see if the right one is reported not the previous one', function(done) {
-        reporter_mock.resetChangeCaches();
+        // moved to beforeach():
+        // reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         // reporter_mock.tick();
@@ -136,8 +146,8 @@ describe('DataCollector:CheckBox', function() {
 
 
     it('click the first one again to Toggle. Then see if the right one is reported with the correct value (i.e. false)', function(done) {
-        // This test actually helped finding bugs.
-        reporter_mock.resetChangeCaches();
+        // moved to beforeach():
+        // reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
         // reporter_mock.tick();
@@ -167,7 +177,8 @@ describe('DataCollector:CheckBox', function() {
     });  // it
 
     it('click a checkbox that is initially (by default) on', function(done) {
-        reporter_mock.resetChangeCaches();
+        // moved to beforeach():
+        // reporter_mock.resetChangeCaches();
         reporter_mock.tick();
 
         document.getElementById('on_by_default7').click();
@@ -198,7 +209,8 @@ describe('DataCollector:CheckBox', function() {
     */
 
     it('If not clicked since last tick(), should not report anything. (tests the tick)', function(done) {
-        reporter_mock.resetChangeCaches();
+        // moved to beforeach():
+        // reporter_mock.resetChangeCaches();
         document.getElementById('on_by_default7').click();
         reporter_mock.tick(); // note that this is AFTER the click()
         setTimeout(function() {

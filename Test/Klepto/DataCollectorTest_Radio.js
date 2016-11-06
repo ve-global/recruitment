@@ -80,6 +80,11 @@ describe('DataCollector:Radio', function() {
         originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000;  // it is already 5000, but just for future compatiblity.
     });
+
+    beforeEach(function() {
+        reporter_mock.resetChangeCaches();  // when removed, it correctly broke some tests.
+    });
+
     afterEach(function() {
         if (jasmine.DEFAULT_TIMEOUT_INTERVAL != 6000) {
             console.error("Error (un)setting Jasmine's asyc timeout. originalTimeout=" + originalTimeout + "  jasmine.DEFAULT_TIMEOUT_INTERVAL = "+jasmine.DEFAULT_TIMEOUT_INTERVAL);
@@ -89,7 +94,6 @@ describe('DataCollector:Radio', function() {
 
     // negative test: no data is sent when nothing is selected. This tests the reporter mock class
     it('Initially, none is selected and nothing reported', function(done) {
-        reporter_mock.resetChangeCaches();
             //document.getElementById('third').click();
         //nothing will be reported
         reporter_mock.tick();
@@ -109,7 +113,6 @@ describe('DataCollector:Radio', function() {
     });  // it
 
     it('should return male after click of a radio button', function(done) {
-        reporter_mock.resetChangeCaches();
         // Note the mysterious argument "done". Specifying this will change the behaviour of Jasmine. See below.
         //document.getElementById('x').value = 1;
         document.getElementById('male').click();
@@ -153,7 +156,6 @@ describe('DataCollector:Radio', function() {
 
 
     it('should return "female" after click of a radio button', function(done) {
-        reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('female').click();
         setTimeout(function() {
@@ -179,7 +181,6 @@ describe('DataCollector:Radio', function() {
 
 
     it('Check if it avoids sending repeated data', function(done) {
-        reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('female').click();
         reporter_mock.tick();
@@ -192,11 +193,12 @@ describe('DataCollector:Radio', function() {
         );
     });  // it
     it('(see last test) ... but it does send the data  if we did not tick() between two clicks() on the same radio option.', function(done) {
-        reporter_mock.resetChangeCaches();
         reporter_mock.tick();
         document.getElementById('female').click();
         document.getElementById('female').click();
         setTimeout(function() {
+            // note that this won't be correct if we didn't .resetChangeCaches() before each test.
+
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(4, "first")).toBe('female');
             expect(reporter_mock.countChunksSentSinceLastTick()).toBe(1);
             done();

@@ -88,7 +88,10 @@ describe('DataCollector:CheckBox', function() {
         const  BADS = 1;
         const EXAMPLE_EMAILS = [
             ["jack@jack.com", "a@b.com"],  // good
-            ["a@b.c om", "q.q.q"]  // bad
+            ["a@b.c om", "q.q.q",'@','.','aa.@aa.com','aa@.aa.com','@.com','a@.com','a@c.','a@.',
+                '',' ','..','a@goo..com','a@..com',
+                'a @goo.com', 'خ@goo.com'
+            ]  // bad
         ];
         for (var goodbad = 0 ; goodbad < 2; ++goodbad) {
             for (var i = 0; i < EXAMPLE_EMAILS[goodbad].length; ++i) {
@@ -100,8 +103,8 @@ describe('DataCollector:CheckBox', function() {
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             var vl = reporter_mock.anyDataSentSinceLastTickGivenId(8, "list");
-            console.error(reporter_mock.countChunksSentSinceLastTick())
-            console.error(vl)
+            //console.error(reporter_mock.countChunksSentSinceLastTick())
+            //console.error(vl)
             expect(reporter_mock.countChunksSentSinceLastTick()).toBe(EXAMPLE_EMAILS[GOODS].length);
 
             // ogdds and bads are appended and are collected here:
@@ -112,7 +115,7 @@ describe('DataCollector:CheckBox', function() {
                     if (goodbad == GOODS) {
                         expect(vl[ctr]).toBe(EXAMPLE_EMAILS[goodbad][i]);
                     } else if (goodbad == BADS){
-                        expect(vl[ctr]).toBe(null);  // EXAMPLE_EMAILS[goodbad][i]
+                        expect(vl[ctr]).toBe(undefined);  // out of range
                     }
 
                     ctr ++;
@@ -124,6 +127,48 @@ describe('DataCollector:CheckBox', function() {
         );
 
     });  // it
+
+    /**
+     * Checks whether the email is correctly refined.
+     * If refined_email is not specified, the email is already refined and is acceptable as it is (and validated)
+     * However, if refined_email is null or false, it means the given email is expected to be rejected.
+     *
+     * @param      {Function}  done           The done object (used to indicate finishing of the test, as it is async programming)
+     * @param      {boolean}   email          The given email string (can be valid, invalid, or refinable)
+     * @param      {boolean}   refined_email  (optional): ommited if valid & acceptable. false or null if not acceptable, any other string, to impose a certain form of the email string (the main usecase).
+     */
+    function test_email(done, email, refined_email) {
+        if (refined_email === undefined) {
+            //console.error("11111111", email, refined_email);
+            refined_email = email;
+            //console.error("---", email, refined_email);
+        }
+        if (refined_email === null || refined_email === false) {
+            refined_email = null;
+            // console.error("222222");
+        }
+
+        reporter_mock.tick();
+
+        var e = document.getElementById('eml8');
+        e.value = email;
+        var event = new Event('change');
+        e.dispatchEvent(event);
+
+        setTimeout(function() {
+            var em = reporter_mock.anyDataSentSinceLastTickGivenId(8, "first");
+            // console.error(em, refined_email);
+            expect(em).toBe(refined_email);
+            done();
+          }, 20
+        );
+    }
+
+    it('Trims email.', function(done) {
+        //  test_email(done, '  a@gOo.cOm   ', 'a@goo.com');
+        //test_email(done, 'a @goo.com', null);
+        test_email(done, 'ab@goo.com');
+    });
 
     it('Enter an valid email and check its validity.');
     it('Enter a range of invalid emails. (and make sure they are not sent)');

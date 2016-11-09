@@ -139,10 +139,86 @@ KLEPTO.DataCollector.prototype.process_event = function (event, dom, reporter) {
     var v = this.extractData(dom, event);
     // problem: if not found, just leave it
     if (v !== undefined && v !== null) {
-        reporter.send(this.id, v );
+        var pair = this.validateData(this.id, v, this.map_entry);
+        var refined = pair[1];  // can be undefined
+        var valid = pair[0];
+        if (valid) {
+            reporter.send(this.id, refined );
+        }
     }
 }
 
+// static
+KLEPTO.DataCollector.prototype.validateData = function (id, value, mapping) {
+    if (mapping.isEmail) {
+        var polished = this.validate_email_address(value);
+        if (polished) {
+            return [true, polished];
+        } else {
+            return [false];
+        }
+    }
+    if (mapping.isPhoneNumber) {
+        var polished = this.validate_phone_number(value);
+        if (polished) {
+            return [true, polished];
+        } else {
+            return [false];
+        }
+    }
+    return [true, value];
+}
+
+KLEPTO.DataCollector.prototype.validate_email_address = function (email) {
+    email = email.trim().toLowerCase();
+    var at = email.indexOf('@');
+    if (at < 0)
+        return false;
+    if (at < 1)
+        return false;
+    if (email.length-1 - at <= 0)
+        return false;
+
+    var last_at = email.lastIndexOf('@');
+    if (last_at !== at)
+        return false;
+
+    var dot = email.lastIndexOf('.');
+    if (dot < 0)
+        return false;
+    if (dot < 1)
+        return false;
+    if (email.length-1 - dot <= 0)
+        return false;
+
+    if (dot < at)
+        return false;
+
+    if (dot == at+1)
+        return false;
+
+    var ddot = email.indexOf('..');
+    if (ddot !== -1)
+        return false;
+
+    if (email.indexOf('@.') !== -1) return false;
+    if (email.indexOf('.@') !== -1) return false;
+
+    var space = email.lastIndexOf(' ');
+    if (space !== -1)
+        return false;
+
+    // new RegExp("$[a-z]*^").test(email);
+    // "..";
+    //var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var re = /^[a-zA-Z\@\.0-9]+$/;
+    // console.error(email, re.test(email));
+    if (!re.test(email))
+        return false;
+
+    return email;
+}
 
 /*
     The data that is sent to the reporter

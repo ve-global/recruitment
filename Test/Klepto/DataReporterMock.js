@@ -170,17 +170,26 @@ var KLEPTO = KLEPTO || {};
 		// var report_first = !report_last;
 		var report_first;
 		var report_last;
+		var report_all_as_list;
 		if (report_which == "first") {
 			report_first = true;
 			report_last = false;
+			report_all_as_list = false;
 		} else if (report_which == "last") {
 			report_first = false;
 			report_last = true;
+			report_all_as_list = false;
+		} else if (report_which == "list") {
+			report_first = false;
+			report_last = false;
+			report_all_as_list = true;
 		} else {
 			throw "Invalid usage. Either \"first\" or \"last\"";
 		}
 		var last_answer = null;
+
 		var multiple_found = 0;
+		var answer_list = [];
 
 		var begin = since_idx;
 		if (begin < 0) begin = 0;
@@ -197,8 +206,14 @@ var KLEPTO = KLEPTO || {};
 				if (report_last) {
 					last_answer = dict[id];
 				}
+				if (report_all_as_list) {
+					answer_list.push(dict[id]);
+				}
 				multiple_found ++;
 			}
+		}
+		if (report_all_as_list) {
+			return answer_list;
 		}
 		if (report_last) {
 			return last_answer;

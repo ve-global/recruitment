@@ -209,4 +209,6 @@ describe('DataCollector:CheckBox', function() {
     });  // it
 
 
+    // todo: explore usage of waitsFor() / runs()
+
 });  // describe

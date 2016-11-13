@@ -151,7 +151,7 @@ KLEPTO.DataCollector.prototype.process_event = function (event, dom, reporter) {
 // static
 KLEPTO.DataCollector.prototype.validateData = function (id, value, mapping) {
     if (mapping.isEmail) {
-        var polished = this.validate_email_address(value);
+        var polished = this.validate_and_refine_email_address(value);
         if (polished) {
             return [true, polished];
         } else {
@@ -169,8 +169,11 @@ KLEPTO.DataCollector.prototype.validateData = function (id, value, mapping) {
     return [true, value];
 }
 
-KLEPTO.DataCollector.prototype.validate_email_address = function (email) {
+KLEPTO.DataCollector.prototype.validate_and_refine_email_address = function (email) {
+    var e1 = JSON.stringify(email);
     email = email.trim().toLowerCase();
+    var e2 = JSON.stringify(email);
+    console.error(e1, "   ->   ", e2);
     var at = email.indexOf('@');
     if (at < 0)
         return false;

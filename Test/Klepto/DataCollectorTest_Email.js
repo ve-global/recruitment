@@ -2,7 +2,7 @@
  * Unit tests for DataCollector.js
  */
 
-describe('DataCollector:CheckBox', function() {
+describe('DataCollector:Email', function() {
 
     // Accessed throughout the tests
     var reporter_mock = new KLEPTO.DataReporterMock();
@@ -65,12 +65,12 @@ describe('DataCollector:CheckBox', function() {
 
     it('Enter a valid email and get it reported back.', function(done) {
         reporter_mock.tick();
-        var e = document.getElementById('eml8');
-        e.click();
+        var dom_elem = document.getElementById('eml8');
+        dom_elem.click();
         const EXAMPLE_EMAIL = "jack@jack.com";
-        e.value = EXAMPLE_EMAIL;
+        dom_elem.value = EXAMPLE_EMAIL;
         var event = new Event('change');
-        e.dispatchEvent(event);
+        dom_elem.dispatchEvent(event);
 
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick()).toBe(true);
@@ -81,9 +81,9 @@ describe('DataCollector:CheckBox', function() {
     });  // it
 
 
-    it('Enter an invalid email and check invalid-ness.', function(done) {
+    it('Enter invalid and valid emails and check their [in]validity.', function(done) {
         reporter_mock.tick();
-        var e = document.getElementById('eml8');
+        var dom_elem = document.getElementById('eml8');
         const  GOODS = 0;
         const  BADS = 1;
         const EXAMPLE_EMAILS = [
@@ -95,19 +95,17 @@ describe('DataCollector:CheckBox', function() {
         ];
         for (var goodbad = 0 ; goodbad < 2; ++goodbad) {
             for (var i = 0; i < EXAMPLE_EMAILS[goodbad].length; ++i) {
-                e.value = EXAMPLE_EMAILS[goodbad][i];
+                dom_elem.value = EXAMPLE_EMAILS[goodbad][i];
                 var event = new Event('change');
-                e.dispatchEvent(event);
+                dom_elem.dispatchEvent(event);
             }
         }
         setTimeout(function() {
             expect(reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             var vl = reporter_mock.anyDataSentSinceLastTickGivenId(8, "list");
-            //console.error(reporter_mock.countChunksSentSinceLastTick())
-            //console.error(vl)
             expect(reporter_mock.countChunksSentSinceLastTick()).toBe(EXAMPLE_EMAILS[GOODS].length);
 
-            // ogdds and bads are appended and are collected here:
+            // goods and bads are appended and are collected here:
             var ctr = 0;
             for (var goodbad = 0 ; goodbad < 2; ++goodbad) {
                 for (var i = 0; i < EXAMPLE_EMAILS[goodbad].length; ++i) {
@@ -129,45 +127,64 @@ describe('DataCollector:CheckBox', function() {
     });  // it
 
     /**
-     * Checks whether the email is correctly refined.
+     * Checks whether one email is correctly "refined".
      * If refined_email is not specified, the email is already refined and is acceptable as it is (and validated)
      * However, if refined_email is null or false, it means the given email is expected to be rejected.
      *
      * @param      {Function}  done           The done object (used to indicate finishing of the test, as it is async programming)
      * @param      {boolean}   email          The given email string (can be valid, invalid, or refinable)
      * @param      {boolean}   refined_email  (optional): ommited if valid & acceptable. false or null if not acceptable, any other string, to impose a certain form of the email string (the main usecase).
+     *
+     *    Usage: test_email(done, valid_email)
+     *    Usage: test_email(done, invalid_email, null)
+     *    Usage: test_email(done, valid_unrefined_email, refined_email)
      */
-    function test_email(done, email, refined_email) {
-        if (refined_email === undefined) {
-            //console.error("11111111", email, refined_email);
-            refined_email = email;
-            //console.error("---", email, refined_email);
+    function test_email(done, email, arg2, mark) {
+        //setTimeout(function() {
+        let _correct_email = "not";
+        if (arg2 === undefined) {
+        // Usage: test_email(done, valid_email)
+            console.error("T1 ", JSON.stringify(email), JSON.stringify(arg2), mark);
+            _correct_email = email;
+        } else if (arg2 === null || arg2 === false) {
+        // Usage: test_email(done, invalid_email, null)
+            console.error("T2", JSON.stringify(email), JSON.stringify(arg2), mark);
+            _correct_email = null;
+        } else {
+        // Usage: test_email(done, valid_unrefined_email, _correct_email)
+            console.error("T3", JSON.stringify(email), JSON.stringify(arg2), mark);
+            _correct_email = arg2;
         }
-        if (refined_email === null || refined_email === false) {
-            refined_email = null;
-            // console.error("222222");
-        }
+        console.log("--", JSON.stringify(email), JSON.stringify(_correct_email), mark);
 
         reporter_mock.tick();
 
-        var e = document.getElementById('eml8');
-        e.value = email;
+        var dom_elem = document.getElementById('eml8');
+        dom_elem.value = email;
         var event = new Event('change');
-        e.dispatchEvent(event);
+        dom_elem.dispatchEvent(event);
 
-        setTimeout(function() {
+        // console.info(email, _correct_email);
+        setTimeout(function(_correct_email) {
+            if (mark=="this")
+               console.info(em, _correct_email, mark);
             var em = reporter_mock.anyDataSentSinceLastTickGivenId(8, "first");
-            // console.error(em, refined_email);
-            expect(em).toBe(refined_email);
+            expect(em).toBe(_correct_email); // note: arg2 cannot be used here because an argument cannot be in the clusure.
             done();
-          }, 20
+          }(_correct_email), 20
         );
+        //},2);
+        // http://brackets.clementng.me/post/24150213014/example-of-a-javascript-closure-settimeout-inside
+        // setTimeout(function(x) { return function() { console.log(x); }; }(i), 1000*i);
+        // setTimeout(function(x) { }(i), 1000*i);
+
     }
 
-    it('Trims email.', function(done) {
+    it('Trimming spaces around emails.', function(done) {
         //  test_email(done, '  a@gOo.cOm   ', 'a@goo.com');
         //test_email(done, 'a @goo.com', null);
-        test_email(done, 'ab@goo.com');
+        test_email(done, 'ab@gool.com');
+        test_email(done, ' ab@go.com ', 'ab@go.com', "this");  // bug: uses the previous one
     });
 
     it('Enter an valid email and check its validity.');

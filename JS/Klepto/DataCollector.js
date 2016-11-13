@@ -173,7 +173,6 @@ KLEPTO.DataCollector.prototype.validate_and_refine_email_address = function (ema
     var e1 = JSON.stringify(email);
     email = email.trim().toLowerCase();
     var e2 = JSON.stringify(email);
-    console.error(e1, "   ->   ", e2);
     var at = email.indexOf('@');
     if (at < 0)
         return false;

@@ -139,23 +139,19 @@ describe('DataCollector:Email', function() {
      *    Usage: test_email(done, invalid_email, null)
      *    Usage: test_email(done, valid_unrefined_email, refined_email)
      */
-    function test_email(done, email, arg2, mark) {
+    function test_email(done, email, arg2) {
         //setTimeout(function() {
         let _correct_email = "not";
         if (arg2 === undefined) {
         // Usage: test_email(done, valid_email)
-            console.error("T1 ", JSON.stringify(email), JSON.stringify(arg2), mark);
             _correct_email = email;
         } else if (arg2 === null || arg2 === false) {
         // Usage: test_email(done, invalid_email, null)
-            console.error("T2", JSON.stringify(email), JSON.stringify(arg2), mark);
             _correct_email = null;
         } else {
         // Usage: test_email(done, valid_unrefined_email, _correct_email)
-            console.error("T3", JSON.stringify(email), JSON.stringify(arg2), mark);
             _correct_email = arg2;
         }
-        console.log("--", JSON.stringify(email), JSON.stringify(_correct_email), mark);
 
         reporter_mock.tick();
 
@@ -164,19 +160,12 @@ describe('DataCollector:Email', function() {
         var event = new Event('change');
         dom_elem.dispatchEvent(event);
 
-        // console.info(email, _correct_email);
         setTimeout(function(_correct_email) {
-            if (mark=="this")
-               console.info(em, _correct_email, mark);
             var em = reporter_mock.anyDataSentSinceLastTickGivenId(8, "first");
             expect(em).toBe(_correct_email); // note: arg2 cannot be used here because an argument cannot be in the clusure.
             done();
           }(_correct_email), 20
         );
-        //},2);
-        // http://brackets.clementng.me/post/24150213014/example-of-a-javascript-closure-settimeout-inside
-        // setTimeout(function(x) { return function() { console.log(x); }; }(i), 1000*i);
-        // setTimeout(function(x) { }(i), 1000*i);
 
     }
 

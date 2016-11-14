@@ -90,7 +90,7 @@ describe('DataCollector:Email', function() {
             ["jack@jack.com", "a@b.com"],  // good
             ["a@b.c om", "q.q.q",'@','.','aa.@aa.com','aa@.aa.com','@.com','a@.com','a@c.','a@.',
                 '',' ','..','a@goo..com','a@..com',
-                'a @goo.com', 'خ@goo.com'
+                'a @goo.com', 'خ@goo.com', 'a@go o.com', 'a@goo.co m'
             ]  // bad
         ];
         for (var goodbad = 0 ; goodbad < 2; ++goodbad) {
@@ -173,19 +173,16 @@ describe('DataCollector:Email', function() {
     it('Trimming spaces around emails.', function(done) {
         test_email(done, ' ab@gOo.cOm ', 'ab@goo.com');
     });
-    it('Trimming spaces around emails.', function(done) {
+    it('Valid emails with unusual characters.', function(done) {
         test_email(done, 'a__b.1++@g.uk');
     });
-    it('Trimming spaces around emails.', function(done) {
+    it('Fine email.', function(done) {
         test_email(done, 'ab@gool.com');
     });
-    it('Trimming spaces around emails.', function(done) {
-        test_email(done, 'a__b.1++@g.uk');
-    });
-    it('Trimming spaces around emails.', function(done) {
+    it('Invalid email using test_email().', function(done) {
         test_email(done, 'a @goo.com', null);
     });
-    it('Trimming spaces around emails.', function(done) {
+    it('Empty email.', function(done) {
         test_email(done, '', null);
     });
 

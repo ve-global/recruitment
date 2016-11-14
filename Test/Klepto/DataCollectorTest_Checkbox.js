@@ -201,7 +201,7 @@ describe('DataCollector:CheckBox', function() {
         reporter_mock.tick(); // note that this is AFTER the click()
         setTimeout(function() {
             // reporter_mock.reportAll();
-            expect(!!reporter_mock.anyDataSentSinceLastTick()).toBe(true);
+            expect(!!reporter_mock.anyDataSentSinceLastTick()).toBe(false);  // was true. fixed.
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(7, "first")).toBe(null);
             done();
           }, 20

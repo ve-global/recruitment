@@ -264,7 +264,7 @@ var KLEPTO = KLEPTO || {};
 		if (this._tick == -1)
 			throw new Error("No tick found");
 		var current = this.transmitted_data.length-1;  // index of the last element
-		return current - this._tick;
+		return (current+1) - (this._tick+1);
 	};
 
 	/** Prints out in consol.log all the data since last tick().

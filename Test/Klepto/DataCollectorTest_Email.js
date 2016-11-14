@@ -140,17 +140,16 @@ describe('DataCollector:Email', function() {
      *    Usage: test_email(done, valid_unrefined_email, refined_email)
      */
     function test_email(done, email, arg2) {
-        //setTimeout(function() {
-        let _correct_email = "not";
+        let correct_email = "not";
         if (arg2 === undefined) {
         // Usage: test_email(done, valid_email)
-            _correct_email = email;
+            correct_email = email;
         } else if (arg2 === null || arg2 === false) {
         // Usage: test_email(done, invalid_email, null)
-            _correct_email = null;
+            correct_email = null;
         } else {
-        // Usage: test_email(done, valid_unrefined_email, _correct_email)
-            _correct_email = arg2;
+        // Usage: test_email(done, valid_unrefined_email, correct_email)
+            correct_email = arg2;
         }
 
         reporter_mock.tick();
@@ -162,18 +161,32 @@ describe('DataCollector:Email', function() {
 
         setTimeout(function(_correct_email) {
             var em = reporter_mock.anyDataSentSinceLastTickGivenId(8, "first");
+            //console.error(em, _correct_email);
             expect(em).toBe(_correct_email); // note: arg2 cannot be used here because an argument cannot be in the clusure.
             done();
-          }(_correct_email), 20
+          }(correct_email), 20
         );
 
     }
 
+        // You cannot use 'done' more than once
     it('Trimming spaces around emails.', function(done) {
-        //  test_email(done, '  a@gOo.cOm   ', 'a@goo.com');
-        //test_email(done, 'a @goo.com', null);
+        test_email(done, ' ab@gOo.cOm ', 'ab@goo.com');
+    });
+    it('Trimming spaces around emails.', function(done) {
+        test_email(done, 'a__b.1++@g.uk');
+    });
+    it('Trimming spaces around emails.', function(done) {
         test_email(done, 'ab@gool.com');
-        test_email(done, ' ab@go.com ', 'ab@go.com', "this");  // bug: uses the previous one
+    });
+    it('Trimming spaces around emails.', function(done) {
+        test_email(done, 'a__b.1++@g.uk');
+    });
+    it('Trimming spaces around emails.', function(done) {
+        test_email(done, 'a @goo.com', null);
+    });
+    it('Trimming spaces around emails.', function(done) {
+        test_email(done, '', null);
     });
 
     it('Enter an valid email and check its validity.');

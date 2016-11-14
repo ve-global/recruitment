@@ -252,7 +252,7 @@ var KLEPTO = KLEPTO || {};
 		if (this._tick == -1)
 			return false;
 		*/
-		var since = this._tick;
+		var since = this._tick + 1;
 		if (this._tick == -1)  since = 0;
 		var current = this.transmitted_data.length-1;  // index of the last element
 		// return current > since;  // ?

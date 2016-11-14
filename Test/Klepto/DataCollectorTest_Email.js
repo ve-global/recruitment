@@ -207,6 +207,40 @@ describe('DataCollector:Email', function() {
         );
     });  // it
 
+    function test_domelement(domElemId, prepare_callback1, test_callback2, done) {
+        //return function(done) {
+            expect(typeof domElemId).toBe("string");  // self testing the test
+            expect(typeof prepare_callback1).toBe("function");  // self test
+            expect(typeof test_callback2).toBe("function");  // self test
+            var dom_elem = document.getElementById(domElemId);
+            prepare_callback1(dom_elem);
+            setTimeout(function(dom_elem_, test_callback2_, done_) {
+                test_callback2_(dom_elem_);
+                done_();
+              }(dom_elem, test_callback2, done), 20
+            );
+        //};
+    }
+
+    it('DRY/Refactored version: Enter an email that is not changed, and make sure it is not sent.', function(done) {
+        test_domelement('eml8',
+            function (dom_elem){
+                dom_elem.click(); // not needed really.
+                const EXAMPLE_EMAIL = "jack@jack.com";
+                dom_elem.value = EXAMPLE_EMAIL;
+
+                for (var rep = 0; rep < 2; ++rep) {
+                    var event = new Event('change');
+                    dom_elem.dispatchEvent(event);
+                    reporter_mock.tick();
+                }
+            },
+            function (dom_elem){
+                expect(reporter_mock.anyDataSentSinceLastTick()).toBe(false); // fails
+                expect(reporter_mock.anyDataSentSinceLastTickGivenId(8, "first")).toBe(null);
+            }, done);
+    });  // it
+
 
 
 

@@ -63,6 +63,23 @@ describe('DataCollector:Email', function() {
         reporter_mock.resetChangeCaches();
     });
 
+    function test_domelement_reported_data(domElemId, prepare_callback1, test_callback2) {
+        return function(done) {
+            expect(typeof domElemId).toBe("string");  // self testing the test
+            expect(typeof prepare_callback1).toBe("function");  // self test
+            expect(typeof test_callback2).toBe("function");  // self test
+            var dom_elem = document.getElementById(domElemId);
+            prepare_callback1(dom_elem);
+            setTimeout(function(dom_elem_, test_callback2_, done_) {
+                test_callback2_(dom_elem_);
+                done_();
+              }(dom_elem, test_callback2, done), 20
+            );
+        };
+    }
+
+
+
     it('Enter a valid email and get it reported back.', function(done) {
         reporter_mock.tick();
         var dom_elem = document.getElementById('eml8');
@@ -186,41 +203,7 @@ describe('DataCollector:Email', function() {
         test_email(done, '', null);
     });
 
-    it('Enter an email that is not changed, and make sure it is not sent.', function(done) {
-        var dom_elem = document.getElementById('eml8');
 
-        dom_elem.click(); // not needed really.
-        const EXAMPLE_EMAIL = "jack@jack.com";
-        dom_elem.value = EXAMPLE_EMAIL;
-
-        for (var rep = 0; rep < 2; ++rep) {
-            var event = new Event('change');
-            dom_elem.dispatchEvent(event);
-            reporter_mock.tick();
-        }
-
-        setTimeout(function() {
-            expect(reporter_mock.anyDataSentSinceLastTick()).toBe(false); // fails
-            expect(reporter_mock.anyDataSentSinceLastTickGivenId(8, "first")).toBe(null);
-            done();
-          }, 20
-        );
-    });  // it
-
-    function test_domelement_reported_data(domElemId, prepare_callback1, test_callback2) {
-        return function(done) {
-            expect(typeof domElemId).toBe("string");  // self testing the test
-            expect(typeof prepare_callback1).toBe("function");  // self test
-            expect(typeof test_callback2).toBe("function");  // self test
-            var dom_elem = document.getElementById(domElemId);
-            prepare_callback1(dom_elem);
-            setTimeout(function(dom_elem_, test_callback2_, done_) {
-                test_callback2_(dom_elem_);
-                done_();
-              }(dom_elem, test_callback2, done), 20
-            );
-        };
-    }
 
     it('DRY/Refactored version: Enter an email that is not changed, and make sure it is not sent.',
         test_domelement_reported_data('eml8',
@@ -243,6 +226,26 @@ describe('DataCollector:Email', function() {
     );  // it
 
 
+    it('Enter an email that is not changed, and make sure it is not sent. Non-DRY version.', function(done) {
+        var dom_elem = document.getElementById('eml8');
+
+        dom_elem.click(); // not needed really.
+        const EXAMPLE_EMAIL = "jack@jack.com";
+        dom_elem.value = EXAMPLE_EMAIL;
+
+        for (var rep = 0; rep < 2; ++rep) {
+            var event = new Event('change');
+            dom_elem.dispatchEvent(event);
+            reporter_mock.tick();
+        }
+
+        setTimeout(function() {
+            expect(reporter_mock.anyDataSentSinceLastTick()).toBe(false); // fails
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(8, "first")).toBe(null);
+            done();
+          }, 20
+        );
+    });  // it
 
 
 });  // describe

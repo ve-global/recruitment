@@ -214,7 +214,7 @@ KLEPTO.DataCollector.prototype.validate_and_refine_email_address = function (ema
     // "..";
     //var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     //var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var re = /^[a-zA-Z\@\.0-9]+$/;
+    var re = /^[a-zA-Z\@\.0-9_\.\+]+$/;
     // console.error(email, re.test(email));
     if (!re.test(email))
         return false;

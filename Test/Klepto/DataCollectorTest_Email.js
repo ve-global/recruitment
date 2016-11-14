@@ -69,11 +69,12 @@ describe('DataCollector:Email', function() {
             expect(typeof prepare_callback1).toBe("function");  // self test
             expect(typeof test_callback2).toBe("function");  // self test
             var dom_elem = document.getElementById(domElemId);
-            prepare_callback1(dom_elem);
-            setTimeout(function(dom_elem_, test_callback2_, done_) {
-                test_callback2_(dom_elem_);
+            var arg = prepare_callback1(dom_elem);
+            // arg = data passed (shared) from prepare_callback1() to test_callback2()
+            setTimeout(function(dom_elem_, test_callback2_, done_, arg_) {
+                test_callback2_(dom_elem_, arg_);
                 done_();
-              }(dom_elem, test_callback2, done), 20
+              }(dom_elem, test_callback2, done, arg), 20
             );
         };
     }
@@ -105,9 +106,9 @@ describe('DataCollector:Email', function() {
             dom_elem.value = EXAMPLE_EMAIL;
             var event = new Event('change');
             dom_elem.dispatchEvent(event);
+            return EXAMPLE_EMAIL;
         },
-        (dom_elem) => {
-            const EXAMPLE_EMAIL = "jack@jack.com";  // todo: avoid this repeat
+        (dom_elem, EXAMPLE_EMAIL) => {
             expect(reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(8, "first")).toBe(EXAMPLE_EMAIL);
         })

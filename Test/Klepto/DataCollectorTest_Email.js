@@ -96,6 +96,22 @@ describe('DataCollector:Email', function() {
           }, 20
         );
     });  // it
+    it('DRY version of above: Enter a valid email and get it reported back.', test_domelement_reported_data(
+        'eml8',
+        (dom_elem) => {
+            reporter_mock.tick();
+            dom_elem.click();
+            const EXAMPLE_EMAIL = "jack@jack.com";
+            dom_elem.value = EXAMPLE_EMAIL;
+            var event = new Event('change');
+            dom_elem.dispatchEvent(event);
+        },
+        (dom_elem) => {
+            const EXAMPLE_EMAIL = "jack@jack.com";  // todo: avoid this repeat
+            expect(reporter_mock.anyDataSentSinceLastTick()).toBe(true);
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(8, "first")).toBe(EXAMPLE_EMAIL);
+        })
+    );  // it
 
 
     it('Enter invalid and valid emails and check their [in]validity. Make sure invalids are not sent.', function(done) {

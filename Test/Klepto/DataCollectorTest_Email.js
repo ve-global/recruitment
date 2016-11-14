@@ -81,7 +81,7 @@ describe('DataCollector:Email', function() {
     });  // it
 
 
-    it('Enter invalid and valid emails and check their [in]validity.', function(done) {
+    it('Enter invalid and valid emails and check their [in]validity. Make sure invalids are not sent.', function(done) {
         reporter_mock.tick();
         var dom_elem = document.getElementById('eml8');
         const  GOODS = 0;
@@ -179,17 +179,34 @@ describe('DataCollector:Email', function() {
     it('Fine email.', function(done) {
         test_email(done, 'ab@gool.com');
     });
-    it('Invalid email using test_email().', function(done) {
+    it('Invalid email using test_email(). Make sure invalids are not sent.', function(done) {
         test_email(done, 'a @goo.com', null);
     });
     it('Empty email.', function(done) {
         test_email(done, '', null);
     });
 
-    it('Enter an valid email and check its validity.');
-    it('Enter a range of invalid emails. (and make sure they are not sent)');
-    it('Enter a range of valid emails.');
-    it('Enter an email that is not changed, and make sure it is not sent.');
+    it('Enter an email that is not changed, and make sure it is not sent.', function(done) {
+        var dom_elem = document.getElementById('eml8');
+
+        dom_elem.click(); // not needed really.
+        const EXAMPLE_EMAIL = "jack@jack.com";
+        dom_elem.value = EXAMPLE_EMAIL;
+
+        for (var rep = 0; rep < 2; ++rep) {
+            var event = new Event('change');
+            dom_elem.dispatchEvent(event);
+            reporter_mock.tick();
+        }
+
+        setTimeout(function() {
+            expect(reporter_mock.anyDataSentSinceLastTick()).toBe(false); // fails
+            expect(reporter_mock.anyDataSentSinceLastTickGivenId(8, "first")).toBe(null);
+            done();
+          }, 20
+        );
+    });  // it
+
 
 
 

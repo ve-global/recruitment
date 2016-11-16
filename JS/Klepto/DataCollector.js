@@ -67,6 +67,9 @@ KLEPTO.DataCollector.prototype.attach = function (document_, reporter) {
             this.getEventName(),
             (e) => {
                 // console.error("EVENT: ", e, " to ", dom_elem);
+                if (dom_elem.id=="eml88ii") {
+                    console.log("eml88ii");
+                }
                 that.process_event(e, dom_elem, reporter);
             }
         );

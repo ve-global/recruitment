@@ -88,14 +88,8 @@ describe('DataCollector:CheckBox', function() {
     });
 
 
+    // see test_domelement_reported_data() for a better solution to avoid repeating "setTimeout()". See DataCollectorTest_Email.js
 
-    /**
-    The test plan:
-        Check distinction between multiple checkboxes.
-        Use one checkbox initially checked.
-        Click each.
-        Toggle one by a third click.
-    */
     it('click the first one, then see if the right one is reported not the other one', function(done) {
         reporter_mock.tick();
         document.getElementById('termsAndConditions6').click();
@@ -104,7 +98,7 @@ describe('DataCollector:CheckBox', function() {
             expect(!!reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             // true = checked, false = unchecked, null = not sent (no update)
             //
-            // alternative way of testing: check if it is "on":
+            // alternative way of testing: check if it is "on": But it doesn't test what is actiually sent by the reporter.
             //    document.getElementById('termsAndConditions6')    ['value']
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")).toBe(true);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(55, "first")).toBe(null);  // should not exist
@@ -149,13 +143,8 @@ describe('DataCollector:CheckBox', function() {
             // reporter_mock.reportAll();
             expect(!!reporter_mock.anyDataSentSinceLastTick()).toBe(true);
             // true = checked, false = unchecked, null = not sent (no update)
-            // console.log("3 "+ document.getElementById('termsAndConditions6') ['value']);
-            // console.log("**************3a", reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")); // null
-            // console.log("**************3b", reporter_mock.anyDataSentSinceLastTickGivenId(55, "first")); // true
-            // reporter_mock.reportAll();
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6, "last")).toBe(false);
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(6, "first")).toBe(true);
-            // reporter_mock.reportAll();
             expect(reporter_mock.anyDataSentSinceLastTickGivenId(55, "first")).toBe(null);  // should not exist
 
             // second test

@@ -63,13 +63,20 @@ describe('DataCollector:Email', function() {
         reporter_mock.resetChangeCaches();
     });
 
+    // However, I dont like this solution because it makes things obscure.
+    // Todo: can we put these into beforeEach() and afterEach()?
+    // todo: Extend 'describe' using this?
     function test_domelement_reported_data(domElemId, prepare_callback1, test_callback2) {
         return function(done) {
             expect(typeof domElemId).toBe("string");  // self testing the test
             expect(typeof prepare_callback1).toBe("function");  // self test
             expect(typeof test_callback2).toBe("function");  // self test
             var dom_elem = document.getElementById(domElemId);
+
+            // Part 1: prepare
             var arg = prepare_callback1(dom_elem);
+
+            // Part 2: test
             // arg = data passed (shared) from prepare_callback1() to test_callback2()
             setTimeout(function(dom_elem_, test_callback2_, done_, arg_) {
                 test_callback2_(dom_elem_, arg_);
@@ -97,6 +104,7 @@ describe('DataCollector:Email', function() {
           }, 20
         );
     });  // it
+
     it('DRY version of above: Enter a valid email and get it reported back.', test_domelement_reported_data(
         'eml8',
         (dom_elem) => {

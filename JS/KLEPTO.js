@@ -17,6 +17,7 @@ var KLEPTO = KLEPTO || {};
     }
 
     KLEPTO.create_collectors = function (array_of_mappings, data_reporters) {
+        if(!Array.isArray(array_of_mappings)) console.error("Incorrect usage");
         var collectors = [];
         for (let m = 0; m < array_of_mappings.length; ++m) {
             let mapping_entry = array_of_mappings[m];

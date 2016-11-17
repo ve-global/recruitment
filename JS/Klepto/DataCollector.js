@@ -227,13 +227,29 @@ KLEPTO.DataCollector.prototype.validate_and_refine_email_address = function (ema
 KLEPTO.DataCollector.prototype.validate_phone_number = function (pno) {
     //console.error(pno);
 
-    var e1 = JSON.stringify(pno);
-    //var e2 = JSON.stringify(pno);
+    //var digits_only = pno.reduce(  (ac,b)=>(ac+(b>='0' && b<=9)?b:""), "");
+    var digits_only = "";
+    for (var i = 0; i < pno.length; ++i) {
+        var c = pno[i];
+        if (c>='0' && c<=9) {
+            digits_only = digits_only + c;
+        }
+    }
+    var digits_only = digits_only;
+    //console.error(JSON.stringify(pno), JSON.stringify(digits_only));
     var l = pno.length;
     if (l < 4)
         return false;
-    if (l > 50)
+    if (digits_only.length > 16)
         return false;
+    if (digits_only.length < 4)
+        return false;
+    // todo: parantheses balance
+    // + in beginnig only
+    // US/UK/country-specific rules
+    // more than two 0 in beginning
+    // avoid -- ++, etc
+    // at least 4 digits (after removing non-digits)
 
     var re = /^[0-9\(\)\ \+\-]+$/;
     if (!re.test(pno))

@@ -99,7 +99,7 @@ describe2(
             (dom_elem) => {
                 reporter_mock.tick();  // essetial
                 //dom_elem.click();
-                const EXAMPLE_PHONENO = "07719689428";
+                const EXAMPLE_PHONENO = "07711111128";
                 dom_elem.value = EXAMPLE_PHONENO;
                 var event = new Event('change');
                 dom_elem.dispatchEvent(event);
@@ -116,6 +116,7 @@ describe2(
 
 
         invalid_phone = function(pnum, reason) {
+            if (!reason) reason = "invalid phone tested";
             it2(reason,
                 'phono99',
                 (dom_elem) => {
@@ -127,14 +128,16 @@ describe2(
                     return EXAMPLE_PHONENO;
                 },
                 (dom_elem, EXAMPLE_PHONENO) => {
-                    reporter_mock.reportAll();
+                    //reporter_mock.reportAll();
                     expect(reporter_mock.anyDataSentSinceLastTick()).toBe(false);
                     expect(reporter_mock.anyDataSentSinceLastTickGivenId(99, "first")).toBe(null);
                 }
             );  // it2
         }
 
-        valid_phone = function(pnum, reason) {
+        valid_phone = function(pnum_, reason) {
+            if (!reason) reason = "valid phone tested";
+            var pnum = pnum_;
             it2(reason,
                 'phono99',
                 (dom_elem) => {
@@ -146,19 +149,22 @@ describe2(
                     return EXAMPLE_PHONENO;
                 },
                 (dom_elem, EXAMPLE_PHONENO) => {
-                    reporter_mock.reportAll();
+                    // reporter_mock.reportAll();
                     expect(reporter_mock.anyDataSentSinceLastTick()).toBe(true);
                     expect(reporter_mock.anyDataSentSinceLastTickGivenId(99, "first")).toBe(EXAMPLE_PHONENO);
                 }
             );  // it2
         }
 
-        valid_phone("07719689428", 'A correct phone number.');
-        invalid_phone("0771968942807719689428077196894280771968942807719689428", 'A phone number too long.');
-        valid_phone("+44 7719 689428", 'formatted.');
-        valid_phone("(0)(0044) 7719-689428", 'formatted.');
-        valid_phone("(0)(0044) 7719-689428", 'formatted.');
-        invalid_phone("(0)(0044) a7719-689428", 'formatted.');
+        valid_phone("07711111428", 'A correct phone number.');
+        invalid_phone("0771111142807711111118077111114280771122222807711222228", 'A phone number too long.');
+        invalid_phone("0771111142807712555", 'A phone number too long.');
+        valid_phone("+44 7711 222228", 'formatted.');
+        valid_phone("(0)(0044) 7711-222228");
+        valid_phone("(0)(0044) 7123-456780");
+        invalid_phone("1");
+        invalid_phone("");
+
 
 
     }

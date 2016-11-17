@@ -33,7 +33,7 @@ var KLEPTO = KLEPTO || {};
 			this.data[id] = data;
 		}
 		else {
-			console.log("data not changed(a): ", id, data, this.data[id]);
+			console.info("data not changed(a): ", id, data, this.data[id]);
 		}
 		return valueChanged;
 	};
@@ -68,7 +68,7 @@ var KLEPTO = KLEPTO || {};
 	DataReporterMock.prototype.send = function (id, data) {
 		var valueChanged = this.store(id, data);
 		if (!valueChanged) {
-			console.log("data not changed(b) ", id, data);
+			console.info("data not changed(b) ", id, data);
 		}
 
 		if (valueChanged) {

@@ -235,7 +235,7 @@ KLEPTO.DataCollector.prototype.validate_phone_number = function (pno) {
     if (l > 50)
         return false;
 
-    var re = /^[0-9\(\)\ \+]+$/;
+    var re = /^[0-9\(\)\ \+\-]+$/;
     if (!re.test(pno))
         return false;
 

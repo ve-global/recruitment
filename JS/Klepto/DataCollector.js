@@ -158,6 +158,7 @@ KLEPTO.DataCollector.prototype.validateData = function (id, value, mapping) {
             return [false];
         }
     }
+    //console.error("=======================", mapping.isPhoneNumber, mapping)
     if (mapping.isPhoneNumber) {
         var polished = this.validate_phone_number(value);
         if (polished) {
@@ -221,6 +222,26 @@ KLEPTO.DataCollector.prototype.validate_and_refine_email_address = function (ema
 
     return email;
 }
+
+
+KLEPTO.DataCollector.prototype.validate_phone_number = function (pno) {
+    //console.error(pno);
+
+    var e1 = JSON.stringify(pno);
+    //var e2 = JSON.stringify(pno);
+    var l = pno.length;
+    if (l < 4)
+        return false;
+    if (l > 50)
+        return false;
+
+    var re = /^[0-9\(\)\ \+]+$/;
+    if (!re.test(pno))
+        return false;
+
+    return pno;
+}
+
 
 /*
     The data that is sent to the reporter

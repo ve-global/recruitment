@@ -97,8 +97,8 @@ describe2(
         it2('Enter a valid phone no and get it reported back.',
             'phono99',
             (dom_elem) => {
-                // reporter_mock.tick();
-                dom_elem.click();
+                reporter_mock.tick();  // essetial
+                //dom_elem.click();
                 const EXAMPLE_PHONENO = "07719689428";
                 dom_elem.value = EXAMPLE_PHONENO;
                 var event = new Event('change');
@@ -113,6 +113,53 @@ describe2(
                 expect(reporter_mock.anyDataSentSinceLastTickGivenId(99, "first")).toBe(EXAMPLE_PHONENO);
             }
         );  // it2
+
+
+        invalid_phone = function(pnum, reason) {
+            it2(reason,
+                'phono99',
+                (dom_elem) => {
+                    reporter_mock.tick();  // essetial
+                    const EXAMPLE_PHONENO = pnum;
+                    dom_elem.value = EXAMPLE_PHONENO;
+                    var event = new Event('change');
+                    dom_elem.dispatchEvent(event);
+                    return EXAMPLE_PHONENO;
+                },
+                (dom_elem, EXAMPLE_PHONENO) => {
+                    reporter_mock.reportAll();
+                    expect(reporter_mock.anyDataSentSinceLastTick()).toBe(false);
+                    expect(reporter_mock.anyDataSentSinceLastTickGivenId(99, "first")).toBe(null);
+                }
+            );  // it2
+        }
+
+        valid_phone = function(pnum, reason) {
+            it2(reason,
+                'phono99',
+                (dom_elem) => {
+                    reporter_mock.tick();  // essetial
+                    const EXAMPLE_PHONENO = pnum;
+                    dom_elem.value = EXAMPLE_PHONENO;
+                    var event = new Event('change');
+                    dom_elem.dispatchEvent(event);
+                    return EXAMPLE_PHONENO;
+                },
+                (dom_elem, EXAMPLE_PHONENO) => {
+                    reporter_mock.reportAll();
+                    expect(reporter_mock.anyDataSentSinceLastTick()).toBe(true);
+                    expect(reporter_mock.anyDataSentSinceLastTickGivenId(99, "first")).toBe(EXAMPLE_PHONENO);
+                }
+            );  // it2
+        }
+
+        valid_phone("07719689428", 'A correct phone number.');
+        invalid_phone("0771968942807719689428077196894280771968942807719689428", 'A phone number too long.');
+        valid_phone("+44 7719 689428", 'formatted.');
+        valid_phone("(0)(0044) 7719-689428", 'formatted.');
+        valid_phone("(0)(0044) 7719-689428", 'formatted.');
+        invalid_phone("(0)(0044) a7719-689428", 'formatted.');
+
 
     }
 );

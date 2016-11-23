@@ -1,4 +1,5 @@
 /*
+ * See DataCollectorTest_Email_betterVersion.js
  * Unit tests for DataCollector.js
  */
 

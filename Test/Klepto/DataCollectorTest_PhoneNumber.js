@@ -1,5 +1,5 @@
 /**
- *
+ * See DataCollectorTest_Email_betterVersion.js
  */
 
 var describe2 = function(testName, fixture_, mapping_, do_tests_callback) {

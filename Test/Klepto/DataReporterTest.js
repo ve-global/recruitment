@@ -1,9 +1,11 @@
-(function(win, classes){
+  (function(win, KLEPTO){
   'use strict';
 
   describe('DataReporter', function () {
-    var DataReporter = classes.DataReporter,
+    var DataReporter = KLEPTO.DataReporter,
       dataReporterInstance;
+
+    console.log("Console: Sohail");
 
     describe('constructor', function () {
       beforeEach(function () {
@@ -16,7 +18,7 @@
     });
 
     describe('store', function () {
-      var hasBeenStored;
+      var valueChanged;
 
       beforeEach(function () {
         dataReporterInstance = new DataReporter();
@@ -33,18 +35,21 @@
           expect(dataReporterInstance.data).toEqual(jasmine.objectContaining({
             1: 'data'
           }));
-        });       
-        it('returns that the data has been stored successfully', function () {
-          hasBeenStored = dataReporterInstance.store(1, 'data');
-
-          expect(hasBeenStored).toEqual(true);
         });
+
+        it('returns that the data has been stored successfully', function () {
+          valueChanged = dataReporterInstance.store(1, 'data');
+
+          expect(valueChanged).toEqual(true);
+        });
+
         it('does not remove the data stored previously', function () {
+
           dataReporterInstance.data = {
             1: 'data'
           };
 
-          hasBeenStored = dataReporterInstance.store(2, 'more-data');
+          valueChanged = dataReporterInstance.store(2, 'more-data');
 
           expect(dataReporterInstance.data).toEqual(jasmine.objectContaining({
             1: 'data'
@@ -68,9 +73,9 @@
           });
         });
         it('returns that the data has been stored successfully', function () {
-          hasBeenStored = dataReporterInstance.store(1, 'new-data');
-          
-          expect(hasBeenStored).toEqual(true);
+          valueChanged = dataReporterInstance.store(1, 'new-data');
+
+          expect(valueChanged).toEqual(true);
         });
       });
 
@@ -83,13 +88,13 @@
 
         it('does not change the stored data', function () {
           dataReporterInstance.store(1, 'data');
-          
+
           expect(dataReporterInstance.data[1]).toEqual('data');
         });
         it('returns that the data was the same and has not been stored', function () {
-          hasBeenStored = dataReporterInstance.store(1, 'data');
+          valueChanged = dataReporterInstance.store(1, 'data');
 
-          expect(hasBeenStored).toEqual(false);
+          expect(valueChanged).toEqual(false);
         });
       });
     });
@@ -128,11 +133,11 @@
       });
       it('does not do the request to the server if the value has not changed', function () {
         dataReporterInstance.store.and.returnValue(false);
-        
+
         dataReporterInstance.send(1, 'data');
 
         expect(dataReporterInstance.makeRequest).not.toHaveBeenCalled();
       });
     });
   });
-}(window, classes));
+}(window, KLEPTO));

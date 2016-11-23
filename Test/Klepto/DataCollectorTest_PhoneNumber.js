@@ -53,11 +53,10 @@ var describe2 = function(testName, fixture_, mapping_, do_tests_callback) {
             var arg = prepare_callback1(dom_elem);
 
             // Part 2: test
-            // arg = data passed (shared) from prepare_callback1() to test_callback2()
-            setTimeout(function(dom_elem_, test_callback2_, done_, arg_) {
+            setTimeout(function(){return function(dom_elem_, test_callback2_, done_, arg_) {
                 test_callback2_(dom_elem_, arg_);
                 done_();
-              }(dom_elem, test_callback2, done, arg), 200
+              }(dom_elem, test_callback2, done, arg);}, 20
             );
         };
     }
@@ -164,8 +163,6 @@ describe2(
         valid_phone("(0)(0044) 7123-456780");
         invalid_phone("1");
         invalid_phone("");
-
-
 
     }
 );

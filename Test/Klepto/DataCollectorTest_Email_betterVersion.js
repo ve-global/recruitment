@@ -54,10 +54,10 @@ var describe2 = function(testName, fixture_, mapping_, do_tests_callback) {
 
             // Part 2: test
             // arg = data passed (shared) from prepare_callback1() to test_callback2()
-            setTimeout(function(dom_elem_, test_callback2_, done_, arg_) {
+            setTimeout(function(){return function(dom_elem_, test_callback2_, done_, arg_) {
                 test_callback2_(dom_elem_, arg_);
                 done_();
-              }(dom_elem, test_callback2, done, arg), 200
+              }(dom_elem, test_callback2, done, arg);}, 200
             );
         };
     }
